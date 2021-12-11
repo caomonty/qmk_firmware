@@ -97,6 +97,15 @@ enum custom_keycodes {
 
 /*********************** MACROS DEFINITION END ************************/
 
+/*********************** [START] Aliases ************************/
+
+#define SU_LA LM(_WMAN, MOD_LCTL | MOD_LALT | MOD_LSFT)
+#define MOUSE MO(_MOUSE)
+#define UTIL2 MO(_UTIL2)
+
+
+/*********************** [END] Aliases ************************/
+
 /*********************** [START] keymap ************************/
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -136,11 +145,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,         KC_LGUI,   KC_LSFT,                            _______,                                     _______, _______, _______
     ),
     [_UTIL] = LAYOUT_60_tsangan_hhkb(
-        KC_SLEP, _______,    _______,                         _______, _______, _______, _______, _______, KC_RBRC, KC_BSLS, _______, _______, M_PIPE,   _______,  _______,
-        _______, MO(_DI),    MO(_MOUSE),                      _______, _______, _______, KC_PGUP, M_HOME,  KC_UP,   M_END,   _______, A(KC_E), _______,  _______,
-        _______, MO(_UTIL2), LM(_WMAN, MOD_LCTL | MOD_LALT),  _______, _______, _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,           M_ENT,
-        _______,             _______,                         _______, _______, _______, _______, _______, M_SPLFT, _______, M_SPRGH, M_BSLS,   _______, _______,
-        _______, _______,    _______,                                                    M_SPOT,                                      KC_HAEN,  KC_HANJ, _______
+        KC_SLEP, _______, _______, _______, _______, _______, _______, _______, KC_RBRC, KC_BSLS, _______, _______, M_PIPE,   _______,  _______,
+        _______, MO(_DI), MOUSE,   _______, _______, _______, KC_PGUP, M_HOME,  KC_UP,   M_END,   _______, A(KC_E), _______,  _______,
+        _______, UTIL2,   SU_LA,   _______, _______, _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,           M_ENT,
+        _______,          _______, _______, _______, _______, _______, _______, M_SPLFT, _______, M_SPRGH, M_BSLS,   _______, _______,
+        _______, _______, _______,                   M_SPOT,                                      KC_HAEN,  KC_HANJ, _______
     ),
     [_UTIL2] = LAYOUT_60_tsangan_hhkb(
         _______, _______, _______, _______, _______, _______, _______, _______, M_CR_L,  M_CR_R,  _______, _______, _______, _______,  _______,
@@ -149,12 +158,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, M_BSLS, _______, _______,
         _______, KC_HANJ, _______,                            _______,                                     _______, _______, _______
     ),
-    [_WMAN] = LAYOUT_60_tsangan_hhkb(  // Window manager layer (macOS, magnet)
-        _______, _______,    _______,    _______, _______, _______, _______, _______, KC_RBRC, KC_BSLS, _______, _______,  _______,  _______,  _______,
-        _______, _______,    _______,    _______, _______, _______, KC_U,    KC_E,    KC_UP,   KC_T,    KC_I,    _______,  _______,  _______,
-        _______, _______,    _______,    KC_LGUI, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,            _______,
-        _______,             _______,    _______, _______, _______, _______, KC_J,    KC_D,    KC_F,    KC_G,    KC_K,     _______,  _______,
-        _______, _______,    _______,                               KC_C,                                        _______,  _______,  _______
+    [_WMAN] = LAYOUT_60_tsangan_hhkb(  // Window manager layer (macOS, moom)
+        KC_GESC,  KC_1,    KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,   KC_JYEN, KC_DEL,
+        KC_TAB,   KC_Q,    KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_AMPR,  KC_BSPC,
+        _______,  KC_A,    _______,  KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,        KC_ENT,
+        KC_LSFT,  KC_Z,    KC_X,     KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RO, _______,
+        XXXXXXX,  KC_LALT, KC_LGUI,                            KC_SPC,                                      KC_RGUI, KC_RCTL,  XXXXXXX
     ),
     [_MOUSE] = LAYOUT_60_tsangan_hhkb(
         _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______, _______, _______,  _______,
