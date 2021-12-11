@@ -137,7 +137,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [_UTIL] = LAYOUT_60_tsangan_hhkb(
         KC_SLEP, _______,    _______,                         _______, _______, _______, _______, _______, KC_RBRC, KC_BSLS, _______, _______, M_PIPE,   _______,  _______,
-        _______, MO(_DI),    MO(_MOUSE),                      _______, _______, _______, KC_PGUP, M_HOME,  KC_UP,   M_END,   _______, _______, _______,  _______,
+        _______, MO(_DI),    MO(_MOUSE),                      _______, _______, _______, KC_PGUP, M_HOME,  KC_UP,   M_END,   _______, A(KC_E), _______,  _______,
         _______, MO(_UTIL2), LM(_WMAN, MOD_LCTL | MOD_LALT),  _______, _______, _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,           M_ENT,
         _______,             _______,                         _______, _______, _______, _______, _______, M_SPLFT, _______, M_SPRGH, M_BSLS,   _______, _______,
         _______, _______,    _______,                                                    M_SPOT,                                      KC_HAEN,  KC_HANJ, _______
