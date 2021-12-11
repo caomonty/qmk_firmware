@@ -4,6 +4,7 @@
 enum preonic_layers {
   _QWERTY,
   _UTIL,
+  _DESKTOP,
   _DIGITS,
   _WMANAGE,
   _CONFIG,
@@ -20,6 +21,7 @@ enum preonic_keycodes {
 #define CONFI MO(_CONFIG) // change to configuration layer while held
 #define SF_UN RSFT_T(KC_RO) // shift when held, underscore when tapped
 #define WMANA MO(_WMANAGE)  // change to windows management layer
+#define DESK MO(_DESKTOP)  // change to desktop control layer
 
 #define MM_LE G(KC_LEFT) // move to the start of the current line (*1)
 #define MM_RI G(KC_RGHT) // move to the end of the current line   (*2)
@@ -27,6 +29,21 @@ enum preonic_keycodes {
 #define SP_RI A(KC_RGHT) // move the caret one word to the right  (*4)
 #define BSLS A(KC_JYEN)  // backslash
 #define PIPE S(KC_JYEN) // pipe
+
+// Desktop control related aliases
+#define DC_MENU LCTL(KC_F2) // Move focus to menu bar default keybinding in MacOS
+#define DC_DOCK LCTL(KC_F3) // Move focus to dock
+#define DC_TOOL LCTL(KC_F5) // Move focus to window toolbar
+#define DC_STAT LCTL(KC_F8) // Move focus to status bar side of menu bar
+#define DC_DRWR LALT(LGUI(KC_QUOTE)) // Move focus to window drawer
+#define DC_LPAD LALT(LGUI(KC_Q)) // Show Launchpad
+#define DC_NOTI LALT(LGUI(LCTL(KC_B))) // Show Notification Center
+#define DC_DASH LALT(LGUI(LCTL(KC_C))) // Show Dashboard
+#define DC_HELP LSFT(LGUI(KC_SLASH)) // Position in menu Help search box
+#define DC_LEFT C(KC_LEFT) // move to left desktop
+#define DC_RGHT C(KC_RGHT) // move to right desktop
+#define DC_EXPO C(KC_DOWN) // show expose
+#define DC_MISI C(KC_UP)   // show mission control
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -77,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
  * │        │        │        │        │        │        │  pg up │   *1   │   up   │   *2   │ Accent │ Delete │
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │ pg down│   left │   down │  right │        │        │
+ * │        │        │        │        │        │        │ pg down│   left │   down │  right │   :    │        │
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
  * │        │        │        │        │        │        │        │   *3   │        │   *4   │   \    │        │
  * ├────────┼────────┼────────┼────────┼────────┼────────┴────────┼────────┼────────┼────────┼────────┼────────┤
@@ -87,9 +104,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_UTIL] = LAYOUT_preonic_grid(
   KC_PLUS, _______, _______, _______, _______, _______, _______, _______, KC_RBRC, KC_BSLS, PIPE,    KC_EQL,
   _______, _______, _______, _______, _______, _______, KC_PGUP, MM_LE,   KC_UP,   MM_RI,   A(KC_E), KC_DEL,
-  _______, _______, WMANA,   _______, _______, _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,
+  _______, _______, WMANA,   _______, _______, _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_QUOT, _______,
   _______, _______, _______, _______, _______, _______, _______, SP_LE,   _______, SP_RI,   BSLS,    _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+),
+/* Dektop Control
+ * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
+ * │        │        │        │        │        │        │        │        │        │        │        │        │
+ * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+ * │        │        │        │        │        │        │ Menu   │Notific │MissionC│ Dash   │        │        │
+ * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+ * │        │        │        │        │        │        │ Dock   │Left Des│ Expose │Rght Des│        │        │
+ * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
+ * │        │        │        │        │        │        │ Tool   │ Stat   │ Drawer │Laun pad│        │        │
+ * ├────────┼────────┼────────┼────────┼────────┼────────┴────────┼────────┼────────┼────────┼────────┼────────┤
+ * │        │        │        │        │        │      Help       │        │        │        │        │        │
+ * └────────┴────────┴────────┴────────┴────────┴─────────────────┴────────┴────────┴────────┴────────┴────────┘
+ */
+[_DESKTOP] = LAYOUT_preonic_grid(
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, _______, _______, _______, _______, DC_MENU, DC_NOTI, DC_MISI, DC_DASH, _______, _______,
+  _______, _______, _______, _______, _______, _______, DC_DOCK, DC_LEFT, DC_EXPO, DC_RGHT, _______, _______,
+  _______, _______, _______, _______, _______, _______, DC_TOOL, DC_STAT, DC_DRWR, DC_LPAD, _______, _______,
+  _______, _______, _______, _______, _______, DC_HELP, DC_HELP, _______, _______, _______, _______, _______
 ),
 /* Digits
  * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
@@ -114,23 +151,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Window Management (using moom) it needs customization inside the software
  * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
- * │        │        │        │        │        │        │        │        │        │        │        │        │
+ * │        │        │        │        │        │        │        │Upper L │Upper   │Upper R │        │        │
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │        │        │        │        │        │        │
+ * │        │        │        │        │        │        │        │Lower L │Lower   │Lower R │        │Revert  │
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │        │        │        │        │        │        │
+ * │        │        │        │        │        │        │        │Half L  │        │Half R  │        │Full Scr│
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │        │        │        │        │        │        │
+ * │        │        │        │        │        │        │        │Third L │Third M │Third R │        │        │
  * ├────────┼────────┼────────┼────────┼────────┼────────┴────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │                 │        │        │        │        │        │
+ * │        │        │        │        │        │ 55% Centered  W │        │        │        │        │        │
  * └────────┴────────┴────────┴────────┴────────┴─────────────────┴────────┴────────┴────────┴────────┴────────┘
  */
 [_WMANAGE] = LAYOUT_preonic_grid(
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+  KC_GESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,      KC_8,     KC_9,      KC_0,    KC_MINS,
+  KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,      KC_I,     KC_O,      KC_P,    KC_BSPC,
+  _______,  KC_A,    _______, KC_D,    KC_F,    KC_G,    KC_H,    KC_J,      KC_K,     KC_L,      KC_SCLN, KC_ENT,
+  KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,      KC_COMM,  KC_DOT,    KC_SLSH, KC_RO,
+  KC_LCTL,  KC_LALT, KC_HAEN, KC_HANJ, KC_LGUI, KC_SPC,  KC_SPC,  KC_RGUI,   KC_RCTL,  KC_AMPR,   KC_LBRC, _______
 ),
 
 /* Adjust (Lower + Raise)
