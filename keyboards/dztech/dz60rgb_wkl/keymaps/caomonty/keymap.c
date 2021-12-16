@@ -102,6 +102,21 @@ enum custom_keycodes {
 #define MOUSE MO(_MOUSE)
 #define UTIL2 MO(_UTIL2)
 
+// Desktop control related aliases
+#define DC_MENU LCTL(KC_F2) // Move focus to menu bar default keybinding in MacOS
+#define DC_DOCK LCTL(KC_F3) // Move focus to dock
+#define DC_TOOL LCTL(KC_F5) // Move focus to window toolbar
+#define DC_STAT LCTL(KC_F8) // Move focus to status bar side of menu bar
+#define DC_DRWR LALT(LGUI(KC_QUOTE)) // Move focus to window drawer
+#define DC_LPAD LALT(LGUI(KC_Q)) // Show Launchpad
+#define DC_NOTI LALT(LGUI(LCTL(KC_B))) // Show Notification Center
+#define DC_DASH LALT(LGUI(LCTL(KC_C))) // Show Dashboard
+#define DC_HELP LSFT(LGUI(KC_SLASH)) // Position in menu Help search box
+#define DC_LEFT C(KC_LEFT) // move to left desktop
+#define DC_RGHT C(KC_RGHT) // move to right desktop
+#define DC_EXPO C(KC_DOWN) // show expose
+#define DC_MISI C(KC_UP)   // show mission control
+
 /*********************** [END] Aliases ************************/
 
 /*********************** [START] keymap ************************/
@@ -138,16 +153,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_UTIL] = LAYOUT_60_tsangan_hhkb(
         KC_SLEP, _______, _______, _______, _______, _______, _______, _______, KC_RBRC, KC_BSLS, _______, _______, M_PIPE,   _______,  _______,
         _______, MO(_DI), MOUSE,   _______, _______, _______, KC_PGUP, M_HOME,  KC_UP,   M_END,   _______, A(KC_E), _______,  _______,
-        _______, UTIL2,   SU_LA,   _______, _______, _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,           M_ENT,
+        _______, UTIL2,   SU_LA,   _______, _______, _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_QUOT, _______,           M_ENT,
         _______,          _______, _______, _______, _______, _______, _______, M_SPLFT, _______, M_SPRGH, M_BSLS,   _______, _______,
         _______, _______, _______,                   M_SPOT,                                      KC_HAEN,  KC_HANJ, _______
     ),
     [_UTIL2] = LAYOUT_60_tsangan_hhkb(
-        _______, _______, _______, _______, _______, _______, _______, _______, M_CR_L,  M_CR_R,  _______, _______, _______, _______,  _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, M_MUP,   _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, M_SLFT,  M_MDWN,  M_SRGHT, _______, _______,          _______,
-        _______,          _______, _______, _______, _______, _______, _______, _______, _______, _______, M_BSLS, _______, _______,
-        _______, KC_HANJ, _______,                            _______,                                     _______, _______, _______
+        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______,  _______,
+        _______, _______, _______, _______, _______, _______, DC_MENU, DC_NOTI, DC_MISI, DC_DASH, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, DC_DOCK, DC_LEFT, DC_EXPO, DC_RGHT, _______, _______,          _______,
+        _______,          _______, _______, _______, _______, _______, DC_TOOL, DC_STAT, DC_DRWR, DC_LPAD, _______, _______, _______,
+        _______, KC_HANJ, _______,                            DC_HELP,                                     _______, _______, _______
     ),
     [_WMAN] = LAYOUT_60_tsangan_hhkb(  // Window manager layer (macOS, moom)
         KC_GESC,  KC_1,    KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,   KC_JYEN, KC_DEL,
