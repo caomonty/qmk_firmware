@@ -234,15 +234,35 @@ void matrix_scan_user(void) {
             muse_counter = 0;
         }
     }
+    // [START] start up sound fix
+    if (start_up_sound) {
+      wait_ms(500);
+      start_up_sound = false;
+    }
+    // [END] start up sound fix
 #endif
 }
 
-bool music_mask_user(uint16_t keycode) {
-  switch (keycode) {
-    case RAISE:
-    case LOWER:
-      return false;
-    default:
-      return true;
+// [START] Layer indication with sound
+layer_state_t layer_state_set_user(layer_state_t state){
+  switch (get_highest_layer(state)) {
+    case _UTIL:
+      PLAY_SONG(util_on);
+      break;
+    case _DESKTOP:
+      PLAY_SONG(desktop_on);
+      break;
+    case _DIGITS:
+      PLAY_SONG(numeric_on);
+      break;
+    case _WMANAGE:
+      PLAY_SONG(windows_on);
+      break;
+    case _CONFIG:
+      PLAY_SONG(config_on);
+      break;
   }
+  return state;
 }
+
+// [END] Layer indication with sound
