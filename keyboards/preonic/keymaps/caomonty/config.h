@@ -17,11 +17,9 @@
 #pragma once
 
 #ifdef AUDIO_ENABLE
-#    define STARTUP_SONG SONG(PREONIC_SOUND)
-// #define STARTUP_SONG SONG(NO_SOUND)
+#    define STARTUP_SONG SONG(E__NOTE(_C4), E__NOTE(_REST), E__NOTE(_A4), E__NOTE(_REST), E__NOTE(_F4), E__NOTE(_A4), E__NOTE(_D5),)
+// #    define STARTUP_SONG SONG(NO_SOUND)
 
-#    define DEFAULT_LAYER_SONGS \
-        { SONG(QWERTY_SOUND), SONG(COLEMAK_SOUND), SONG(DVORAK_SOUND) }
 #endif
 
 #define MUSIC_MASK (keycode != KC_NO)
@@ -34,7 +32,7 @@
    - MIDI notes can be sent when in Music mode is on
 */
 
-#define MIDI_BASIC
+//#define MIDI_BASIC
 
 /* enable advanced MIDI features:
    - MIDI notes can be added to the keymap
@@ -46,3 +44,6 @@
 
 /* override number of MIDI tone keycodes (each octave adds 12 keycodes and allocates 12 bytes) */
 //#define MIDI_TONE_KEYCODE_OCTAVES 2
+
+// Include audio clicky
+#define AUDIO_CLICKY
