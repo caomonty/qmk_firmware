@@ -11,17 +11,26 @@ enum preonic_layers {
 };
 
 enum preonic_keycodes {
-  QWERTY = SAFE_RANGE,
+  QWERTY = SAFE_RANGE
 };
 
+float util_on[][2] = SONG(M__NOTE(_C4, 1),);
+float desktop_on[][2] = SONG(M__NOTE(_D4, 1),);
+float numeric_on[][2] = SONG(M__NOTE(_E4, 1),);
+float windows_on[][2] = SONG(M__NOTE(_F4, 1));
+float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 
 // Aliases to shorten code
 #define LT_1 LT(_DIGITS, KC_TAB) // layer digits when held, tab when tapped
 #define UTIL MO(_UTIL) // change to utility layer while held
 #define CONFI MO(_CONFIG) // change to configuration layer while held
 #define SF_UN RSFT_T(KC_RO) // shift when held, underscore when tapped
-#define WMANA MO(_WMANAGE)  // change to windows management layer
+#define WMANA LM(_WMANAGE, MOD_LCTL | MOD_LALT | MOD_LSFT)  // change to windows management layer
 #define DESK MO(_DESKTOP)  // change to desktop control layer
+#define SPOT A(G(KC_SPC))  // Open spotlight, It may need to change the hotkey inside configuration
+#define SCREEN G(S(KC_4))  // Mac screenshot hotkey
+#define TERMF C(S(KC_T))   // New terminal at folder, (it needs configuration inside shortcuts -> services)
+#define CGUI C(KC_LGUI) // Control + Left Gui
 
 #define MM_LE G(KC_LEFT) // move to the start of the current line (*1)
 #define MM_RI G(KC_RGHT) // move to the end of the current line   (*2)
