@@ -266,3 +266,9 @@ layer_state_t layer_state_set_user(layer_state_t state){
 }
 
 // [END] Layer indication with sound
+
+// void keyboard_post_init_user(void) {
+// #ifdef AUDIO_ENABLE
+//   wait_ms(500);
+// #endif
+// }
