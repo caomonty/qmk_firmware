@@ -17,7 +17,7 @@
 #pragma once
 
 #ifdef AUDIO_ENABLE
-#    define STARTUP_SONG SONG(E__NOTE(_C4), E__NOTE(_REST), E__NOTE(_A4), E__NOTE(_REST), E__NOTE(_F4), E__NOTE(_A4), E__NOTE(_D5),)
+#    define STARTUP_SONG SONG(QD_NOTE(_F4), E__NOTE(_REST), QD_NOTE(_A5), E__NOTE(_REST), Q__NOTE(_G4), Q__NOTE(_E4), QD_NOTE(_F4),)
 // #    define STARTUP_SONG SONG(NO_SOUND)
 
 #endif
