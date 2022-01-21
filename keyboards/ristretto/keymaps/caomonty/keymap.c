@@ -36,7 +36,7 @@ enum layers {
   // };
 
   // Aliases to shorten code
-#define LT_1 LT(_DIGITS, KC_TAB) // layer digits when held, tab when tapped
+#define DITAB LT(_DIGITS, KC_TAB) // layer digits when held, tab when tapped
 #define MO_SYM MO(_SYMBOLS)
 #define NUM_SP LT(_LOWER_R1, KC_SPACE) // layer lower r when held, space when tapped
 #define UTIL MO(_UTIL) // change to utility layer while held
@@ -65,6 +65,9 @@ enum layers {
 #define MO_X LT(0, KC_X)
 #define MO_C LT(0, KC_C)
 #define MO_V LT(0, KC_V)
+#define MO_P LT(0, KC_P)  // P on tap @ on hold
+#define MO_BSPC LT(0, KC_BSPC) // backspace on tap = on hold
+#define MO_F LT(0, KC_F) // F on tap cmd + F on hold
 #define ROKA LT(0, KC_HANJ) // change to Romaji input on tap, change to kanji on hold
 // TODO add cmd+f for find
 
@@ -117,14 +120,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     * ├────────┼────────┼────────┼────────┼────────┼────────┤        ├────────┼────────┼────────┼────────┼────────┼────────┤
     * │ Shift  │   Z    │    X   │    C   │    V   │   B    │        │   N    │   M    │    ,   │   .    │   /    │ shift _│
     * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┼────────┴────────┼────────┼────────┼────────┼────────┤
-    * │ Ctl    │  Alt   │ Ro/Ka  │ GUI    │                 │ MUTE   │      Space      │ GUI    │ '      │   @    │ LayerC │
+    * │ Ctl    │  Alt   │ Ro/Ka  │ GUI    │                 │ MUTE   │      Space      │ GUI    │ '      │   '    │ LayerC │
     * └────────┴────────┴────────┴────────┴─────────────────┴────────┴─────────────────┴────────┴────────┴────────┴────────┘
     */
     [_QWERTY] = LAYOUT(
-     LT_1    , MO_Q    , MO_W    , MO_E    , MO_R    , MO_T              , MO_Y    , MO_U    , MO_I    , MO_O    , MO_P    , KC_BSPC ,
-     UTIL    , KC_A    , KC_S    , KC_D    , KC_F    , KC_G              , KC_H    , KC_J    , KC_K    , KC_L    , KC_QUOT , KC_ENT  ,
+     DITAB   , MO_Q    , MO_W    , MO_E    , MO_R    , MO_T              , MO_Y    , MO_U    , MO_I    , MO_O    , MO_P    , MO_BSPC ,
+     UTIL    , KC_A    , KC_S    , KC_D    , MO_F    , KC_G              , KC_H    , KC_J    , KC_K    , KC_L    , KC_QUOT , KC_ENT  ,
      KC_LSFT , MO_Z    , MO_X    , MO_C    , MO_V    , KC_B              , KC_N    , KC_M    , KC_COMM , KC_DOT  , KC_SLSH , SF_UN   ,
-     KC_LCTL , KC_LALT , ROKA    , KC_LGUI , NUM_SP  , NUM_SP  , KC_MUTE , NUM_SP  , NUM_SP  , KC_RGUI , KC_AMPR , KC_LBRC , CONFI
+     KC_LCTL , KC_LALT , ROKA    , KC_LGUI , NUM_SP  , NUM_SP  , KC_MUTE , NUM_SP  , NUM_SP  , KC_RGUI , KC_AMPR , KC_AMPR , CONFI
     ),
     /* LOWER_R1
     * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
@@ -175,7 +178,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______ , _______ , _______ , _______ , _______ , _______           , KC_JYEN , KC_P7   , KC_P8   , KC_P9   , KC_PSLS , _______ ,
       _______ , _______ , _______ , _______ , _______ , _______           , KC_DLR  , KC_P4   , KC_P5   , KC_P6   , KC_PAST , _______ ,
       _______ , _______ , _______ , _______ , _______ , _______           , _______ , KC_P1   , KC_P2   , KC_P3   , KC_PMNS , _______ ,
-      _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_P0   , KC_P0   , KC_PDOT , KC_COMM , KC_PPLS , _______
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_P0   , KC_P0   , KC_COMM , KC_PDOT , KC_PPLS , _______
      ),
      /* Wndows Management
      * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
@@ -247,7 +250,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      ),
 };
 
-// OLED and Encoder function is located in the ristretto.c File
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -289,28 +291,46 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;  // Return true for normal processing of tap keycode
         case MO_U:
             if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_AMPERSAND); // intercept hold function to send ' (JIS)
+                tap_code16(KC_RBRC); // intercept hold function to send [] (JIS)
+                tap_code16(KC_BSLS);
+                tap_code16(KC_LEFT);
                 return false;
             }
             return true;  // Return true for normal processing of tap keycode
         case MO_I:
             if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_ASTERISK); // intercept hold function to send ( (JIS)
+                tap_code16(KC_ASTERISK); // intercept hold functon to send ()
+                tap_code16(KC_LEFT_PAREN);
+                tap_code16(KC_LEFT);
                 return false;
             }
             return true;  // Return true for normal processing of tap keycode
         case MO_O:
             if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_LEFT_PAREN); // intercept hold function to send )
+                tap_code16(KC_RCBR); // intercept hold function to send {}
+                tap_code16(KC_PIPE);
+                tap_code16(KC_LEFT);
                 return false;
             }
             return true;  // Return true for normal processing of tap keycode
         case MO_P:
             if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_UNDERSCORE); // intercept hold function to send = (JIS)
+                tap_code16(KC_LBRC); // intercept hold function to send @ (JIS
                 return false;
             }
             return true;  // Return true for normal processing of tap keycode
+        case MO_BSPC:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_UNDERSCORE); // intercept hold function to send = (JIS)
+                return false;
+            }
+            return true;
+        case MO_F:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(G(KC_F)); // intercept hold function to send cmd-F
+                return false;
+            }
+            return true;
         case MO_Z:
             if (!record->tap.count && record->event.pressed){
                 tap_code16(G(KC_Z)); // intercept hold function to send cmd-Z
@@ -419,3 +439,35 @@ bool oled_task_user(void) {
     return false;
 }
 #endif
+
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case MO_E:
+            return 250;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case MO_E:
+            // Do not select the hold action when another key is tapped.
+            return false;
+        default:
+            //  Immediately select the hold action when another key is tapped.
+            return true;
+    }
+}
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case DITAB:
+            // Immediately select the hold action when another key is pressed.
+            return true;
+        default:
+            // Do not select the hold action when another key is pressed.
+            return false;
+    }
+}
