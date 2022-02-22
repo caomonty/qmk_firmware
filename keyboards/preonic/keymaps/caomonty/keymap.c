@@ -38,6 +38,19 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define SP_RI A(KC_RGHT) // move the caret one word to the right  (*4)
 #define BSLS A(KC_JYEN)  // backslash
 #define PIPE S(KC_JYEN) // pipe
+#define MM_N A(KC_N) // input ˜ character JIS keyboard
+#define BACKTIK S(KC_LBRC) // input ` character (JIS)
+
+// Custom mod-tap
+#define MO_7 LT(0, KC_7) // () on hold 7 on tap
+#define MO_8 LT(0, KC_8) // [] on hold 8 on tap
+#define MO_9 LT(0, KC_9) // {} on hold 9 on tap
+#define MO_P LT(0, KC_P) // @ on hold p on tap
+#define MO_X LT(0, KC_X) // Cut on hold X on tap
+#define MO_C LT(0, KC_C) // Copy on hold C on tap
+#define MO_V LT(0, KC_V) // Paste on hold V on tap
+#define MO_P LT(0, KC_P)  // P on tap @ on hold
+#define ROKA LT(0, KC_HANJ) // change to Romaji input on tap, change to kanji on hold
 
 // Desktop control related aliases
 #define DC_MENU LCTL(KC_F2) // Move focus to menu bar default keybinding in MacOS
@@ -71,11 +84,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
  */
 [_QWERTY] = LAYOUT_preonic_grid(
-  KC_GESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,      KC_8,     KC_9,      KC_0,    KC_MINS,
-  LT_1,     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,      KC_I,     KC_O,      KC_P,    KC_BSPC,
+  KC_GESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    MO_7,      MO_8,     MO_9,      KC_0,    KC_MINS,
+  LT_1,     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,      KC_I,     KC_O,      MO_P,    KC_BSPC,
   UTIL,     KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,      KC_K,     KC_L,      KC_QUOT, KC_ENT,
-  KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,      KC_COMM,  KC_DOT,    KC_SLSH, SF_UN,
-  KC_LCTL,  KC_LALT, KC_HAEN, KC_LGUI, KC_LGUI, KC_SPC,  KC_SPC,  KC_SPC,    KC_RGUI,  KC_AMPR,   KC_LBRC, CONFI
+  KC_LSFT,  KC_Z,    MO_X,    MO_C,    MO_V,    KC_B,    KC_N,    KC_M,      KC_COMM,  KC_DOT,    KC_SLSH, SF_UN,
+  KC_LCTL,  KC_LALT, ROKA,    KC_LGUI, KC_LGUI, KC_SPC,  KC_SPC,  KC_SPC,    KC_RGUI,  KC_AMPR,   KC_AMPR, CONFI
 ),
 ///* Blank
 // * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
@@ -99,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //),
 /* Utility
  * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
- * │   ~    │  F1    │ F2     │ F3     │ F4     │  F5    │        │        │   [    │    ]   │   ^    │   |    │
+ * │   ~    │  F1    │ F2     │ F3     │ F4     │  F5    │        │        │   '    │    `   │   |    │   ^    │
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
  * │        │  F6    │ F7     │ F8     │ F9     │ F10    │  pg up │   *1   │   up   │   *2   │ Accent │ Delete │
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -111,11 +124,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
  */
 [_UTIL] = LAYOUT_preonic_grid(
-  KC_PLUS, KC_F1,  KC_F2,    KC_F3,   KC_F4,   KC_F5,   _______, _______, KC_RBRC, KC_BSLS, PIPE,    KC_EQL,
-  _______, KC_F6,  KC_F7,    KC_F8,   KC_F9,   KC_F10,  KC_PGUP, MM_LE,   KC_UP,   MM_RI,   A(KC_E), KC_DEL,
-  _______, DESK,   WMANA,   _______,  KC_F11,  KC_F12,  KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_SCLN, _______,
-  KC_CAPS, _______, _______, _______, _______, _______, _______, SP_LE,   _______, SP_RI,   BSLS,    _______,
-  _______, _______, _______, _______, CGUI,    CGUI,    SPOT,    SPOT,    _______, _______, _______, _______
+  KC_PLUS, KC_F1,   KC_F2,    KC_F3,   KC_F4,   KC_F5,   _______, _______, KC_AMPR, BACKTIK, PIPE,    KC_EQL,
+  _______, KC_F6,   KC_F7,    KC_F8,   KC_F9,   KC_F10,  KC_PGUP, MM_LE,   KC_UP,   MM_RI,   A(KC_E), KC_DEL,
+  _______, _______, DESK,     WMANA,   KC_F11,  KC_F12,  KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_SCLN, _______,
+  KC_CAPS, _______, _______,  _______, _______, _______, _______, SP_LE,   _______, SP_RI,   BSLS,    _______,
+  _______, _______, _______,  _______, CGUI,    CGUI,    SPOT,    SPOT,    _______, _______, _______, _______
 ),
 /* Dektop Control
  * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
@@ -145,7 +158,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
  * │        │        │        │        │        │        │    $   │   4    │   5    │   6    │   *    │        │
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │        │   1    │   2    │   3    │   -    │        │
+ * │        │        │        │        │        │        │    ^   │   1    │   2    │   3    │   -    │        │
  * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┴────────┼────────┼────────┼────────┼────────┤
  * │        │        │        │        │                 │        0        │   .    │   ,    │   +    │        │
  * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
@@ -154,7 +167,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, _______, _______, _______, _______, _______, _______, KC_RCBR, KC_PIPE, _______, _______,
   _______, _______, _______, _______, _______, _______, KC_JYEN, KC_P7,   KC_P8,   KC_P9,   KC_PSLS, _______,
   _______, _______, _______, _______, _______, _______, KC_DLR , KC_P4,   KC_P5,   KC_P6,   KC_PAST, _______,
-  _______, _______, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PMNS, _______,
+  _______, _______, _______, _______, _______, _______, KC_EQL,  KC_P1,   KC_P2,   KC_P3,   KC_PMNS, _______,
   _______, _______, _______, _______, _______, _______, _______, KC_P0,   KC_PDOT, KC_COMM, KC_PPLS, _______
 ),
 
@@ -176,7 +189,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,      KC_I,     KC_O,      KC_P,    KC_BSPC,
   _______,  KC_A,    _______, KC_D,    KC_F,    KC_G,    KC_H,    KC_J,      KC_K,     KC_L,      KC_SCLN, KC_ENT,
   KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,      KC_COMM,  KC_DOT,    KC_SLSH, KC_RO,
-  KC_LCTL,  KC_LALT, KC_HAEN, KC_HANJ, KC_LGUI, KC_SPC,  KC_SPC,  KC_RGUI,   KC_M   ,  KC_COMM,   KC_DOT , _______
+  KC_LCTL,  KC_LALT, _______, _______, KC_LGUI, KC_SPC,  KC_SPC,  KC_RGUI,   KC_M   ,  KC_COMM,   KC_DOT , _______
 ),
 
 /* Config
@@ -266,6 +279,68 @@ layer_state_t layer_state_set_user(layer_state_t state){
 }
 
 // [END] Layer indication with sound
+
+// [START] custom mod tap definition
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case MO_8:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_RBRC); // intercept hold function to send [] (JIS)
+                tap_code16(KC_BSLS);
+                tap_code16(KC_LEFT);
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_7:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_ASTERISK); // intercept hold functon to send ()
+                tap_code16(KC_LEFT_PAREN);
+                tap_code16(KC_LEFT);
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_9:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_RCBR); // intercept hold function to send {}
+                tap_code16(KC_PIPE);
+                tap_code16(KC_LEFT);
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_P:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_LBRC); // intercept hold function to send @ (JIS
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_X:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(G(KC_X)); // intercept hold function to send cmd-X
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_C:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(G(KC_C)); // intercept hold function to send # cmd-C
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_V:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(G(KC_V)); // intercept hold function to send cmd-V
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case ROKA:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_HAEN); // intercept hold function to send HAEN
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+    }
+    return true;
+};
+// [END] custom mod tap definition
 
 // void keyboard_post_init_user(void) {
 // #ifdef AUDIO_ENABLE
