@@ -15,6 +15,7 @@
   */
 
 #include QMK_KEYBOARD_H
+#include "animation.h"
 
 enum layers {
     _QWERTY,
@@ -77,6 +78,7 @@ enum layers {
 #define SP_RI A(KC_RGHT) // move the caret one word to the right  (*4)
 #define BSLS A(KC_JYEN)  // backslash
 #define PIPE S(KC_JYEN) // pipe
+#define MM_N A(KC_N) // input ˜ character JIS keyboard
 
 // Desktop control related aliases
 #define DC_MENU LCTL(KC_F2) // Move focus to menu bar default keybinding in MacOS
@@ -160,7 +162,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      [_UTIL] = LAYOUT(
       _______ , _______ , _______ , _______ , _______ , _______           , _______ , MM_LE   , KC_UP   , MM_RI   , A(KC_E) , KC_DEL  ,
       _______ , _______ , DESK    , WMANA   , _______ , _______           , _______ , KC_LEFT , KC_DOWN , KC_RGHT , KC_SCLN , _______ ,
-      _______ , _______ , _______ , _______ , _______ , _______           , _______ , SP_LE   , _______ , SP_RI   , BSLS    , _______ ,
+      _______ , _______ , _______ , _______ , _______ , _______           , MM_N    , SP_LE   , _______ , SP_RI   , BSLS    , _______ ,
       _______ , _______ , _______ , _______ , MO_SYM  , MO_SYM  , _______ , SPOT    , SPOT    , _______ , _______ , _______ , _______
      ),
      /* DIGITS
@@ -169,7 +171,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ├────────┼────────┼────────┼────────┼────────┼────────┤        ├────────┼────────┼────────┼────────┼────────┼────────┤
      * │        │        │        │        │        │        │        │    $   │   4    │   5    │   6    │   *    │        │
      * ├────────┼────────┼────────┼────────┼────────┼────────┤        ├────────┼────────┼────────┼────────┼────────┼────────┤
-     * │        │        │        │        │        │        │        │        │   1    │   2    │   3    │   -    │        │
+     * │        │        │        │        │        │        │        │    ^   │   1    │   2    │   3    │   -    │        │
      * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┼────────┴────────┼────────┼────────┼────────┼────────┤
      * │        │        │        │        │                 │        │        0        │   .    │   ,    │   +    │        │
      * └────────┴────────┴────────┴────────┴─────────────────┴────────┴─────────────────┴────────┴────────┴────────┴────────┘
@@ -177,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      [_DIGITS] = LAYOUT(
       _______ , _______ , _______ , _______ , _______ , _______           , KC_JYEN , KC_P7   , KC_P8   , KC_P9   , KC_PSLS , _______ ,
       _______ , _______ , _______ , _______ , _______ , _______           , KC_DLR  , KC_P4   , KC_P5   , KC_P6   , KC_PAST , _______ ,
-      _______ , _______ , _______ , _______ , _______ , _______           , _______ , KC_P1   , KC_P2   , KC_P3   , KC_PMNS , _______ ,
+      _______ , _______ , _______ , _______ , _______ , _______           , KC_EQL  , KC_P1   , KC_P2   , KC_P3   , KC_PMNS , _______ ,
       _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_P0   , KC_P0   , KC_COMM , KC_PDOT , KC_PPLS , _______
      ),
      /* Wndows Management
@@ -379,68 +381,6 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 
 
-
-#ifdef OLED_ENABLE
-
-// static void render_logo(void) {
-//     static const char PROGMEM caomonty_logo[] = {
-//         0xFF,
-//     };
-//
-//     oled_write_P(caomonty_logo, false);
-// }
-
-bool oled_task_user(void) {
-    // Host Keyboard Layer Status
-    oled_write_ln_P(PSTR("Layer"), false);
-    oled_write_ln_P(PSTR(""), false);
-    // render_logo();
-
-    switch (get_highest_layer(layer_state)) {
-        case _QWERTY:
-            oled_write_P(PSTR("Qwert\n"), false);
-            break;
-        case _LOWER_R1:
-            oled_write_P(PSTR("R1 no\n"), false);
-            break;
-        case _UTIL:
-            oled_write_P(PSTR("Util \n"), false);
-            break;
-        case _DESKTOP:
-            oled_write_P(PSTR("Desk \n"), false);
-            break;
-        case _DIGITS:
-            oled_write_P(PSTR("Digit\n"), false);
-            break;
-        case _WMANAGE:
-            oled_write_P(PSTR("Manag\n"), false);
-            break;
-        case _SYMBOLS:
-            oled_write_P(PSTR("Symbo\n"), false);
-            break;
-        case _CONFIG:
-            oled_write_P(PSTR("Confi\n"), false);
-            break;
-        default:
-            // Or use the write_ln shortcut over adding '\n' to the end of your string
-            oled_write_ln_P(PSTR("Undef"), false);
-    }
-    // NEW CODE
-    oled_write_P(PSTR("WPM: "), false);
-    oled_write(get_u8_str(get_current_wpm(), '0'), false);
-    //
-    // oled_write_pixel(0, 0, true);
-    // oled_write_pixel(1, 1, true);
-    // oled_write_pixel(31, 127, true);
-    // oled_write_pixel(30, 126, true);
-
-    // render_logo();
-
-    return false;
-}
-#endif
-
-
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case MO_E:
@@ -471,3 +411,64 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
             return false;
     }
 }
+
+#ifdef OLED_ENABLE
+
+static int c_frame = 0;
+bool first_render = true;
+
+static void render_anim(void) {
+    if (first_render) {
+        oled_write_raw_P( frame, ANIM_SIZE);
+        first_render = 0;
+    } else {
+        change_frame_bytewise(c_frame);
+    }
+    c_frame = c_frame+1 > IDLE_FRAMES ? 0 : c_frame+1;
+}
+
+bool oled_task_user(void) {
+    // // Host Keyboard Layer Status
+    // oled_write_ln_P(PSTR("Layer"), false);
+    // oled_write_ln_P(PSTR(""), false);
+    // // render_logo();
+    //
+    // switch (get_highest_layer(layer_state)) {
+    //     case _QWERTY:
+    //         oled_write_P(PSTR("Qwert\n"), false);
+    //         break;
+    //     case _LOWER_R1:
+    //         oled_write_P(PSTR("R1 no\n"), false);
+    //         break;
+    //     case _UTIL:
+    //         oled_write_P(PSTR("Util \n"), false);
+    //         break;
+    //     case _DESKTOP:
+    //         oled_write_P(PSTR("Desk \n"), false);
+    //         break;
+    //     case _DIGITS:
+    //         oled_write_P(PSTR("Digit\n"), false);
+    //         break;
+    //     case _WMANAGE:
+    //         oled_write_P(PSTR("Manag\n"), false);
+    //         break;
+    //     case _SYMBOLS:
+    //         oled_write_P(PSTR("Symbo\n"), false);
+    //         break;
+    //     case _CONFIG:
+    //         oled_write_P(PSTR("Confi\n"), false);
+    //         break;
+    //     default:
+    //         // Or use the write_ln shortcut over adding '\n' to the end of your string
+    //         oled_write_ln_P(PSTR("Undef"), false);
+    // }
+    // // NEW CODE
+    // oled_write_P(PSTR("WPM: "), false);
+    // oled_write(get_u8_str(get_current_wpm(), '0'), false);
+    //
+    // // render_logo();
+    render_anim();
+
+    return false;
+}
+#endif
