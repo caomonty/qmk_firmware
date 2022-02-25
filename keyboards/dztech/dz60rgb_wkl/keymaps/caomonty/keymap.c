@@ -63,6 +63,7 @@ enum layers {
 
 /*********************** [START] Aliases ************************/
 
+// Aliases to shorten code
 #define LT_1 LT(_DIGITS, KC_TAB) // layer digits when held, tab when tapped
 #define UTIL MO(_UTIL) // change to utility layer while held
 #define CONFI MO(_CONFIG) // change to configuration layer while held
@@ -73,6 +74,7 @@ enum layers {
 #define SCREEN G(S(KC_4))  // Mac screenshot hotkey
 #define TERMF C(S(KC_T))   // New terminal at folder, (it needs configuration inside shortcuts -> services)
 #define CGUI C(KC_LGUI) // Control + Left Gui
+#define MINE TG(_MINE)
 
 #define MM_LE G(KC_LEFT) // move to the start of the current line (*1)
 #define MM_RI G(KC_RGHT) // move to the end of the current line   (*2)
@@ -80,6 +82,20 @@ enum layers {
 #define SP_RI A(KC_RGHT) // move the caret one word to the right  (*4)
 #define BSLS A(KC_JYEN)  // backslash
 #define PIPE S(KC_JYEN) // pipe
+#define MM_N A(KC_N) // input ˜ character JIS keyboard
+#define BACKTIK S(KC_LBRC) // input ` character (JIS)
+#define ACCENT A(KC_E) // input spanish accent using JIS
+
+// Custom mod-tap
+#define MO_7 LT(0, KC_7) // () on hold 7 on tap
+#define MO_8 LT(0, KC_8) // [] on hold 8 on tap
+#define MO_9 LT(0, KC_9) // {} on hold 9 on tap
+#define MO_P LT(0, KC_P) // @ on hold p on tap
+#define MO_X LT(0, KC_X) // Cut on hold X on tap
+#define MO_C LT(0, KC_C) // Copy on hold C on tap
+#define MO_V LT(0, KC_V) // Paste on hold V on tap
+#define MO_P LT(0, KC_P)  // P on tap @ on hold
+#define ROKA LT(0, KC_HANJ) // change to Romaji input on tap, change to kanji on hold
 
 // Desktop control related aliases
 #define DC_MENU LCTL(KC_F2) // Move focus to menu bar default keybinding in MacOS
@@ -97,63 +113,70 @@ enum layers {
 #define DC_MISI C(KC_UP)   // show mission control
 
 
+
 /*********************** [END] Aliases ************************/
 
 /*********************** [START] keymap ************************/
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_60_tsangan_hhkb(
-        KC_GESC, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, XXXXXXX, XXXXXXX, XXXXXXX,
-        LT_1,     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, KC_BSPC,         XXXXXXX,
-        UTIL,       KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_QUOT, KC_ENT,                 XXXXXXX,
-        KC_LSFT,      KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, SF_UN,                CONFI,
-        XXXXXXX,   KC_LALT, KC_LGUI,                            KC_SPC,                                      KC_RGUI, KC_LBRC,        XXXXXXX
+        KC_GESC , KC_1    , KC_2   , KC_3    , KC_4    , KC_5    , KC_6    , MO_7    , MO_8    , MO_9    , KC_0    , KC_MINS , XXXXXXX , XXXXXXX , XXXXXXX ,
+        LT_1       , KC_Q    , KC_W   , KC_E    , KC_R    , KC_T    , KC_Y    , KC_U    , KC_I    , KC_O    , KC_P    , KC_BSPC , KC_BSPC ,       KC_BSPC  ,
+        UTIL        , KC_A    , KC_S   , KC_D    , KC_F    , KC_G    , KC_H    , KC_J    , KC_K    , KC_L    , KC_QUOT , KC_ENT  ,         KC_ENT          ,
+        KC_LSFT        , KC_Z    , MO_X   , MO_C    , MO_V    , KC_B    , KC_N    , KC_M    , KC_COMM , KC_DOT  , KC_SLSH ,       SF_UN          ,  CONFI  ,
+        XXXXXXX , KC_LALT , KC_LGUI  ,                             KC_SPC                                    , KC_RGUI      , ROKA    ,            XXXXXXX
     ),
     [_MINE] = LAYOUT_60_tsangan_hhkb( // Specifically made for minecraft playing on mac
-        _______,         _______,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        KC_TAB,          _______,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        KC_LCTL,         _______,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
-        KC_DOT,                     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-        _______,         KC_LGUI,   KC_LSFT,                            _______,                                     _______, _______, _______
+        // _______ , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+        // _______    , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,       _______  ,
+        // _______     , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,         _______         ,
+        // _______        , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,       _______        , _______ ,
+        // _______ , _______ , _______  ,                             _______                                   , _______      , _______ ,            _______
+        _______ , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+        KC_TAB     , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,       _______  ,
+        KC_LCTL     , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,         _______         ,
+        KC_DOT         , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,       _______        ,  _______,
+        _______ , KC_LGUI , KC_LSFT  ,                             _______                                   , _______      , _______ ,             _______
     ),
     [_UTIL] = LAYOUT_60_tsangan_hhkb(
-        KC_PLUS, _______, _______, _______, _______, _______, _______, _______, KC_RBRC, KC_BSLS, PIPE, KC_EQL, _______,   _______,  _______,
-        _______, _______, _______,   _______, _______, _______, KC_PGUP, MM_LE,  KC_UP,   MM_RI,   A(KC_E), KC_DEL, _______,  _______,
-        _______, DESK,   WMANA,   _______, _______, _______, KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_SCLN, _______,           _______,
-        KC_CAPS,          _______, _______, _______, _______, _______, _______, SP_LE, _______, SP_RI, BSLS,   _______, _______,
-        _______, _______, CGUI,                   SPOT,                                      KC_HAEN,  KC_HANJ, _______
+        KC_PLUS , KC_F1  , KC_F2  , KC_F3   , KC_F4   , KC_F5   , _______ , _______ , KC_AMPR , BACKTIK , PIPE    , KC_EQL  , _______ , _______ , _______ ,
+        _______    , KC_F6   , KC_F7  , KC_F8   , KC_F9   , KC_F10  , KC_PGUP , MM_LE ,  KC_UP     , MM_RI   , ACCENT  , KC_DEL  , _______ ,       KC_DEL ,
+        _______     , _______ , DESK   , WMANA   , KC_F11  , KC_F12  , KC_PGDN , KC_LEFT , KC_DOWN , KC_RGHT , KC_SCLN , _______ ,         _______        ,
+        KC_CAPS        , _______ , _______, _______ , _______ , _______ , _______ , SP_LE   , _______ , SP_RI   , BSLS    ,       _______       , _______ ,
+        _______ , _______ , CGUI     ,                             SPOT                                      , _______      , _______ ,           _______
     ),
     [_DESKTOP] = LAYOUT_60_tsangan_hhkb(
-        _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______, _______,  _______,
-        _______, _______, _______, _______, _______, _______, DC_MENU, DC_NOTI, DC_MISI, DC_DASH, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, DC_DOCK, DC_LEFT, DC_EXPO, DC_RGHT, _______, _______,          _______,
-        _______,          _______, _______, _______, _______, _______, DC_TOOL, DC_STAT, DC_DRWR, DC_LPAD, _______, _______, _______,
-        _______, KC_HANJ, _______,                            DC_HELP,                                     _______, _______, _______
+        _______ , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+        _______    , _______ , _______, _______ , _______ , _______ , _______ , DC_MENU , DC_NOTI , DC_MISI , DC_DASH , _______ , _______ ,       _______  ,
+        _______     , _______ , _______, _______ , _______ , _______ , _______ , DC_DOCK , DC_LEFT ,DC_EXPO  , DC_RGHT , _______ ,         _______         ,
+        _______        , _______ , _______, _______ , _______ , _______ , _______ , DC_TOOL , DC_STAT , DC_DRWR , DC_LPAD ,       _______        , _______ ,
+        _______ , _______ , _______  ,                             DC_HELP                                   , _______      , _______ ,            _______
     ),
     [_WMANAGE] = LAYOUT_60_tsangan_hhkb(  // Window manager layer (macOS, moom)
-        KC_GESC,  KC_1,    KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,   KC_JYEN, KC_DEL,
-        KC_TAB,   KC_Q,    KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, KC_AMPR,  KC_BSPC,
-        _______,  KC_A,    _______,  KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT,        KC_ENT,
-        KC_LSFT,  KC_Z,    KC_X,     KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RO, _______,
-        XXXXXXX,  KC_LALT, KC_LGUI,                            KC_SPC,                                      KC_RGUI, KC_RCTL,  XXXXXXX
+    _______ , _______ , _______, _______ , _______ , _______ , _______ , KC_7    , KC_8    , KC_9    , _______ , _______ , _______ , _______ , _______ ,
+    _______    , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,       _______  ,
+    _______     , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,         _______         ,
+    _______        , _______ , KC_X   , KC_C    , KC_V    , _______ , _______ , _______ , _______ , _______ , KC_SLSH ,       KC_RO          , _______ ,
+    _______ , _______ , _______  ,                             _______                                   , _______      , _______ ,            _______
     ),
     [_DIGITS] = LAYOUT_60_tsangan_hhkb(
-        _______, _______, _______, _______, _______, _______, KC_JYEN, _______, KC_RCBR, KC_PIPE, KC_PSLS, _______, _______, _______,  _______,
-        _______, _______, _______, _______, _______, _______, KC_DLR, KC_7,    KC_8,    KC_9,    KC_PAST, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______, KC_4,    KC_5,    KC_6,    KC_PMNS, _______,          _______,
-        _______,          _______, _______, _______, _______, _______, KC_DOT,  KC_1,    KC_2,    KC_3,    KC_PPLS,  _______, _______,
-        _______, _______, _______,                            KC_0,                                        _______, _______, _______
+        _______ , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+        _______    , _______ , _______, _______ , _______ , _______ , KC_JYEN , KC_P7   , KC_P8   , KC_P9   , KC_PSLS , _______ , _______ ,       _______  ,
+        _______     , _______ , _______, _______ , _______ , _______ , KC_DLR  , KC_P4   , KC_P5   , KC_P6   , KC_PAST , _______ ,         _______         ,
+        _______        , _______ , _______, _______ , _______ , _______ , KC_EQL  , KC_P1   , KC_P2   , KC_P3   , KC_PMNS ,       _______        , _______ ,
+        _______ , _______ , _______  ,                             KC_P0                                     , KC_PPLS      , KC_COMM ,            _______
     ),
     [_CONFIG] = LAYOUT_60_tsangan_hhkb(
-        _______,          KC_F1,      KC_F2,     KC_F3,   KC_F4,   KC_F5,     KC_F6,   KC_F7,   KC_F8,     KC_F9,   KC_F10,  KC_F11,  KC_F12, _______, EEP_RST,
-        _______,          _______,    _______,   _______, _______, _______,   _______, _______, _______,   _______, _______, KC_UP,   _______, RESET,
-        _______,          _______, _______,   _______, _______, _______,   _______, _______, _______,   _______, KC_LEFT, KC_RGHT,          _______,
-        _______,                      _______,   _______, _______, _______,   _______, _______, TG(_MINE), _______, _______, KC_DOWN, _______, _______,
-        _______,          _______,    _______,                                _______,                                     _______,   _______, _______
+        _______ , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+        _______    , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_UP   , _______ ,       _______  ,
+        _______     , _______ , _______, _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT , KC_RGHT ,         _______         ,
+        _______        , _______ , _______, _______ , _______ , _______ , _______ , MINE    , _______ , _______ , KC_DOWN ,       _______        , _______ ,
+        _______ , _______ , _______  ,                             _______                                   , _______      , _______ ,            _______
     )
 };
 
 /*********************** [END] keymap ************************/
+
 
 
 //**************** [START] MATRIX SCANS Lightning *********************//
@@ -245,244 +268,67 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 //**************** [END] MATRIX SCANS Lightning *********************//
 
-//**************** [START] MACROS *********************//
+//**************** [START] Custom tap *********************//
 
+// [START] custom mod tap definition
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case MO_7:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_RBRC); // intercept hold function to send [] (JIS)
+                tap_code16(KC_BSLS);
+                tap_code16(KC_LEFT);
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_8:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_ASTERISK); // intercept hold functon to send ()
+                tap_code16(KC_LEFT_PAREN);
+                tap_code16(KC_LEFT);
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_9:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_RCBR); // intercept hold function to send {}
+                tap_code16(KC_PIPE);
+                tap_code16(KC_LEFT);
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_P:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_LBRC); // intercept hold function to send @ (JIS
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_X:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(G(KC_X)); // intercept hold function to send cmd-X
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_C:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(G(KC_C)); // intercept hold function to send # cmd-C
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case MO_V:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(G(KC_V)); // intercept hold function to send cmd-V
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+        case ROKA:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(KC_HAEN); // intercept hold function to send HAEN
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
+    }
+    return true;
+};
 
-// bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-//     switch (keycode) {
-//     case M_HOME: // send cursor the the most left
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LCMD(SS_TAP(X_LEFT)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_END: // send cursor to the most right
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LCMD(SS_TAP(X_RIGHT)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_PIPE:  // send the pipe symbol | on a JIS layout
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LSFT(SS_TAP(X_JYEN)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_RO:  // send inverted slash on a JIS layout
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LSFT(SS_TAP(X_RO)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_SLFT: // send ctrl + left, on mac: move to left desktop
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LCTL(SS_TAP(X_LEFT)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_SRGHT:  // send ctr + right, on mac: move to right desktop
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LCTL(SS_TAP(X_RIGHT)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_SPLFT:  // move cursor to the left by a whole word
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LALT(SS_TAP(X_LEFT)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_SPRGH:  // move cursor to the right by a whole word
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LALT(SS_TAP(X_RIGHT)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_ENT:
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LGUI(SS_TAP(X_RIGHT)) SS_TAP(X_ENT));
-//         } else {
-//         }
-//         break;
-//
-//     case M_MUP:
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LCTL(SS_TAP(X_UP)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_MDWN:
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LCTL(SS_TAP(X_DOWN)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_L_MAC:
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING("l_mac");
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//     case M_L_WIN:
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING("l_win");
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//     case M_L_GAME:
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING("l_game");
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//     case M_L_GAME_ALT:
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING("l_game_alt");
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//     case M_L_UTIL:
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING("l_util");
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//     case M_L_UTIL_2:
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING("l_util_2");
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//     case M_L_MOUSE:
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING("l_mouse");
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//     case M_SQ_L:  // send left square bracket
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_TAP(X_RBRC));
-//         } else {
-//         }
-//         break;
-//
-//     case M_SQ_R:  // send right square bracket
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_TAP(X_BSLS));
-//         } else {
-//         }
-//         break;
-//
-//     case M_CR_L:  // send left curly braces
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LSFT(SS_TAP(X_RBRC)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_CR_R:  // send right curly braces
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LSFT(SS_TAP(X_BSLS)));
-//         } else {
-//         }
-//         break;
-//
-//     case M_PARENT:
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING(SS_LSFT(SS_TAP(X_8) SS_TAP(X_9)) SS_TAP(X_LEFT));
-//
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//     case M_BSLS:
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING(SS_LALT(SS_TAP(X_JYEN)));
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//
-//     case M_CTL_Z: // ⌃Z
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LGUI(SS_TAP(X_Z)));
-//         } else {
-//             // when keycode QMK is released
-//         }
-//         break;
-//
-//     case M_CTL_X:  // ⌃X
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LGUI(SS_TAP(X_X)));
-//         } else {
-//             // when keycode QMK is released
-//         }
-//         break;
-//
-//     case M_CTL_C: // ⌃C
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LGUI(SS_TAP(X_C)));
-//         } else {
-//             // when keycode QMK is released
-//         }
-//         break;
-//
-//     case M_CTL_V:  // ⌃V
-//         if (record->event.pressed) {
-//             SEND_STRING(SS_LGUI(SS_TAP(X_V)));
-//         } else {
-//             // when keycode QMK is released
-//         }
-//         break;
-//
-//     case M_SPOT:
-//         // mac spotlight hotkey
-//         if (record->event.pressed) {
-//             // when keycode QMKBEST is pressed
-//             SEND_STRING(SS_LGUI(SS_LALT(SS_TAP(X_SPACE))));
-//         } else {
-//             // when keycode QMKBEST is released
-//         }
-//         break;
-//
-//     }
-//     return true;
-// };
-
-
-//**************** [END] MACROS *********************//
+//**************** [END] Custom tap *********************//

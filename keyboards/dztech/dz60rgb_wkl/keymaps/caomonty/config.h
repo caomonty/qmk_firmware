@@ -1,10 +1,7 @@
 #pragma once
 
-#define LEADER_PER_KEY_TIMING
-#define LEADER_TIMEOUT 250
 #define FORCE_NKRO
-#define TAPPING_TERM 200
-#define RETRO_TAPPING
+#define TAPPING_TERM 150
 #define PERMISSIVE_HOLD
 /* Permissive hold allow fast typers to correctly use tapping term keys */
 
