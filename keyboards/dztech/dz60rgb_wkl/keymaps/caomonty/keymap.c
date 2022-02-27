@@ -76,6 +76,8 @@ enum layers {
 #define CGUI C(KC_LGUI) // Control + Left Gui
 #define MINE TG(_MINE)
 
+#define SYM_AT KC_LBRC // @ symbol using JIS config
+
 #define MM_LE G(KC_LEFT) // move to the start of the current line (*1)
 #define MM_RI G(KC_RGHT) // move to the end of the current line   (*2)
 #define SP_LE A(KC_LEFT) // move the caret one word to the left   (*3)
@@ -121,7 +123,7 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_60_tsangan_hhkb(
         KC_GESC , KC_1    , KC_2   , KC_3    , KC_4    , KC_5    , KC_6    , MO_7    , MO_8    , MO_9    , KC_0    , KC_MINS , XXXXXXX , XXXXXXX , XXXXXXX ,
-        LT_1       , KC_Q    , KC_W   , KC_E    , KC_R    , KC_T    , KC_Y    , KC_U    , KC_I    , KC_O    , KC_P    , KC_BSPC , KC_BSPC ,       KC_BSPC  ,
+        LT_1       , KC_Q    , KC_W   , KC_E    , KC_R    , KC_T    , KC_Y    , KC_U    , KC_I    , KC_O    , KC_P    , SYM_AT  , KC_BSPC ,       KC_BSPC  ,
         UTIL        , KC_A    , KC_S   , KC_D    , KC_F    , KC_G    , KC_H    , KC_J    , KC_K    , KC_L    , KC_QUOT , KC_ENT  ,         KC_ENT          ,
         KC_LSFT        , KC_Z    , MO_X   , MO_C    , MO_V    , KC_B    , KC_N    , KC_M    , KC_COMM , KC_DOT  , KC_SLSH ,       SF_UN          ,  CONFI  ,
         XXXXXXX , KC_LALT , KC_LGUI  ,                             KC_SPC                                    , KC_RGUI      , ROKA    ,            XXXXXXX
