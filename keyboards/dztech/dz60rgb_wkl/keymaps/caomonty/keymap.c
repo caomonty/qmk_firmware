@@ -144,7 +144,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_PLUS , KC_F1  , KC_F2  , KC_F3   , KC_F4   , KC_F5   , _______ , _______ , KC_AMPR , BACKTIK , PIPE    , KC_EQL  , _______ , _______ , _______ ,
         _______    , KC_F6   , KC_F7  , KC_F8   , KC_F9   , KC_F10  , KC_PGUP , MM_LE ,  KC_UP     , MM_RI   , ACCENT  , KC_DEL  , _______ ,       KC_DEL ,
         _______     , _______ , DESK   , WMANA   , KC_F11  , KC_F12  , KC_PGDN , KC_LEFT , KC_DOWN , KC_RGHT , KC_SCLN , _______ ,         _______        ,
-        KC_CAPS        , _______ , _______, _______ , _______ , _______ , _______ , SP_LE   , _______ , SP_RI   , BSLS    ,       _______       , _______ ,
+        KC_CAPS        , _______ , _______, _______ , _______ , _______ , MM_N    , SP_LE   , _______ , SP_RI   , BSLS    ,       _______       , _______ ,
         _______ , _______ , CGUI     ,                             SPOT                                      , _______      , _______ ,           _______
     ),
     [_DESKTOP] = LAYOUT_60_tsangan_hhkb(
