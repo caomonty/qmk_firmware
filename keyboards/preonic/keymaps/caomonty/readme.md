@@ -15,4 +15,4 @@ qmk flash -kb preonic/rev3_drop -km via
 ```
 
 
-Configuration planned to use as JIS keyboard, mainly on Mac 
+Configuration planned to use as JIS keyboard, mainly on Mac
