@@ -11,11 +11,23 @@ enum preonic_layers {
   _DIGITS,
   _WMANAGE,
   _CONFIG,
+  _SYMBOLS,
 };
 
+/*********************** [START] Macro and keycode declarations ************************/
+
 enum preonic_keycodes {
-  QWERTY = SAFE_RANGE
+  QWERTY = SAFE_RANGE,
+  MA_SBRA,
+  MA_CBRA,
+  MA_PAR,
+  MA_ALF,
+  CK_LSP, // custom keycode
+  CK_RSP, // custom keycode
 };
+
+
+/*********************** [END] Marcro declarations ************************/
 
 float util_on[][2] = SONG(M__NOTE(_C4, 1),);
 float desktop_on[][2] = SONG(M__NOTE(_D4, 1),);
@@ -26,6 +38,7 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 
 // Aliases to shorten code
 #define LT_1 LT(_DIGITS, KC_TAB) // layer digits when held, tab when tapped
+#define ENT_LT LT(_DESKTOP, KC_ENT)// layer change when held, enter when tapped
 #define UTIL MO(_UTIL) // change to utility layer while held
 #define CONFI MO(_CONFIG) // change to configuration layer while held
 #define SF_UN RSFT_T(KC_RO) // shift when held, underscore when tapped
@@ -36,6 +49,12 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define TERMF C(S(KC_T))   // New terminal at folder, (it needs configuration inside shortcuts -> services)
 #define CGUI C(KC_LGUI) // Control + Left Gui
 #define MINE TG(_MINE)
+#define JIS_LPA KC_ASTERISK // Left parenthesis
+#define JIS_RPA KC_LEFT_PAREN // Right parenthesis
+#define JIS_LCB KC_RCBR // Left curly brace
+#define JIS_RCB KC_PIPE // Right curly brace
+#define JIS_LSB KC_RBRC // left square bracket
+#define JIS_RSB KC_BSLS // Right bracket
 
 #define SYM_AT KC_LBRC // @ symbol using JIS config
 
@@ -43,6 +62,7 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define MM_RI G(KC_RGHT) // move to the end of the current line   (*2)
 #define SP_LE A(KC_LEFT) // move the caret one word to the left   (*3)
 #define SP_RI A(KC_RGHT) // move the caret one word to the right  (*4)
+#define EQUAL S(KC_MINS) // equals JIS
 #define BSLS A(KC_JYEN)  // backslash
 #define PIPE S(KC_JYEN) // pipe
 #define MM_N A(KC_N) // input ˜ character JIS keyboard
@@ -52,7 +72,8 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define JI_QUOT S(KC_7) // input ' using JIS
 #define JI_LCBR S(KC_RBRC) // input { using JIS
 #define JI_LPRN S(KC_8) // input ( using JIS
-#define ALFRED LGUI(LALT(KC_SPC)) // activate alfred in MacOs
+#define ALFRED LGUI(LALT(KC_SPC)) // activate alfred in OSx
+#define WBACK LALT(KC_BSPC)
 
 // Windows-specific codes to emulate the JIS keyboard on a US layout setup
 #define WUTIL MO(_WUTIL)
@@ -76,6 +97,8 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define DOT_3 LT(0, KC_3) // dot on hold 3 on tap,
 #define COMM_2 LT(0, KC_2) // comma on hold, 2 on tap
 #define W_SHIFT LT(0, KC_SLSH) // exclusive use for windows underscore and shift
+#define LT_RSPC LT(0, CK_RSP) // custom behaviour on hold, space on tap
+#define LT_LSPC LT(0, CK_LSP) // custom behaviour on hold, alfred on tap
 
 // Desktop control related aliases
 #define DC_MENU LCTL(KC_F2) // Move focus to menu bar default keybinding in MacOS
@@ -92,9 +115,8 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define DC_EXPO C(KC_DOWN) // show expose
 #define DC_MISI C(KC_UP)   // show mission control
 
-
-
 /*********************** [END] Aliases ************************/
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -115,9 +137,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_QWERTY] = LAYOUT_preonic_grid(
   KC_GESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    MO_7,      MO_8,     MO_9,      KC_0,    KC_MINS,
   LT_1,     KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,      KC_I,     KC_O,      MO_P,    KC_BSPC,
-  UTIL,     KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,      KC_K,     KC_L,      KC_QUOT, KC_ENT,
-  KC_LSFT,  KC_Z,    MO_X,    MO_C,    MO_V,    KC_B,    KC_N,    KC_M,      KC_COMM,  KC_DOT,    KC_SLSH, SF_UN,
-  KC_LCTL,  KC_LALT, ROKA,    KC_LGUI, ALFRED , ALFRED,  KC_SPC,  KC_SPC,    KC_RGUI,  KC_AMPR,   ROKA   , CONFI
+  UTIL,     KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,      KC_K,     KC_L,      KC_QUOT, ENT_LT ,
+  KC_LSFT,  KC_Z,    MO_X,    MO_C,    MO_V,    KC_B,    KC_N,    KC_M,      KC_COMM,  KC_DOT,    KC_SLSH, SF_UN  ,
+  KC_LCTL,  KC_LALT, ROKA,    KC_LGUI, LT_LSPC, LT_LSPC, LT_RSPC, LT_RSPC,   KC_RGUI,  KC_AMPR,   ROKA   , CONFI
 ),
 ///* Blank
 // * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
@@ -181,7 +203,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_UTIL] = LAYOUT_preonic_grid(
   KC_PLUS, KC_F1,   KC_F2,    KC_F3,   KC_F4,   KC_F5,   _______, _______, KC_AMPR, BACKTIK, PIPE,    KC_EQL,
-  _______, KC_F6,   KC_F7,    KC_F8,   KC_F9,   KC_F10,  KC_PGUP, MM_LE,   KC_UP,   MM_RI,   ACCENT , KC_DEL,
+  _______, KC_F6,   KC_F7,    KC_F8,   KC_F9,   KC_F10,  KC_PGUP, MM_LE,   KC_UP,   MM_RI,   ACCENT , WBACK ,
   _______, _______, DESK,     WMANA,   KC_F11,  KC_F12,  KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_SCLN, _______,
   KC_CAPS, _______, _______,  _______, _______, _______, MM_N   , SP_LE,   _______, SP_RI,   BSLS,    _______,
   _______, _______, _______,  _______, CGUI,    CGUI,    SPOT,    SPOT,    _______, _______, _______, _______
@@ -208,10 +230,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_DESKTOP] = LAYOUT_preonic_grid(
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, DC_MENU, DC_NOTI, DC_MISI, DC_DASH, _______, _______,
-  _______, _______, _______, _______, _______, _______, DC_DOCK, DC_LEFT, DC_EXPO, DC_RGHT, _______, _______,
-  _______, _______, _______, _______, _______, _______, DC_TOOL, DC_STAT, DC_DRWR, DC_LPAD, _______, _______,
+  _______, _______, MA_PAR , MA_SBRA, MA_CBRA, _______, DC_MENU, DC_NOTI, DC_MISI, DC_DASH, _______, _______,
+  _______, _______, JIS_LPA, JIS_LSB, JIS_LCB, _______, DC_DOCK, DC_LEFT, DC_EXPO, DC_RGHT, _______, _______,
+  _______, _______, JIS_RPA, JIS_RSB, JIS_RCB, _______, DC_TOOL, DC_STAT, DC_DRWR, DC_LPAD, _______, _______,
   _______, _______, _______, _______, _______, _______, DC_HELP, DC_HELP, _______, _______, _______, _______
+),
+[_SYMBOLS] = LAYOUT_preonic_grid(
+ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+ KC_GESC, KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, SYM_AT , KC_MINS,
+ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+ _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 /* Digits
  * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
@@ -227,9 +256,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
  */
 [_DIGITS] = LAYOUT_preonic_grid(
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_RCBR, KC_PIPE, _______, _______,
-  _______, _______, _______, _______, _______, _______, KC_JYEN, KC_P7,   KC_P8,   KC_P9,   KC_PSLS, _______,
-  _______, _______, _______, _______, _______, _______, KC_DLR , KC_P4,   KC_P5,   KC_P6,   KC_PAST, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+  _______, _______, _______, KC_PMNS, KC_PPLS, _______, KC_JYEN, KC_P7,   KC_P8,   KC_P9,   KC_PSLS, _______,
+  _______, _______, _______, KC_PSLS, KC_PAST, _______, KC_DLR , KC_P4,   KC_P5,   KC_P6,   KC_PAST, EQUAL  ,
   _______, _______, _______, _______, _______, _______, KC_EQL,  KC_P1,   COMM_2,  DOT_3,   KC_PMNS, _______,
   _______, _______, _______, _______, KC_SPC , KC_SPC , _______, KC_P0,   KC_PDOT, KC_COMM, KC_PPLS, _______
 ),
@@ -259,21 +288,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
  * │        │        │        │        │        │        │        │        │        │        │        │ScreenC │
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │        │        │  Ins   │        │        │        │
+ * │        │        │Freq up │        │        │        │        │        │  Ins   │        │        │        │
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │Audio on│Audio of│Music sw│Mus mode│        │        │        │        │        │        │TermFold│
+ * │        │Click on│FreqDown│ClickOff│        │        │        │        │        │        │        │TermFold│
  * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │Click on│Click of│clic rst│Voice - │Voice + │        │        │        │  Up    │        │        │
+ * │        │        │        │        │        │        │        │        │        │  Up    │        │        │
  * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┴────────┼────────┼────────┼────────┼────────┤
- * │        │        │Freq Up │FreqDown│                 │                 │  Left  │ Down   │ Right  │        │
+ * │        │        │        │        │                 │                 │  Left  │ Down   │ Right  │        │
  * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
  */
 [_CONFIG] = LAYOUT_preonic_grid(
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, SCREEN,
-  _______, _______, WI_ON  , _______, _______, _______, _______, _______, KC_INS,  _______, _______, _______,
-  _______, AU_ON,   AU_OFF,  MU_TOG,  MU_MOD,  _______, _______, _______, _______, _______, _______, TERMF,
-  _______, CK_ON,   CK_OFF,  CK_RST,  MUV_DE,  MUV_IN,  _______, _______, _______, KC_UP,   _______, _______,
-  _______, _______, CK_UP,   CK_DOWN, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______
+  _______, _______, CK_UP  , _______, _______, _______, _______, _______, KC_INS,  _______, _______, _______,
+  _______, CK_ON  , CK_DOWN, CK_OFF , _______, _______, _______, _______, _______, _______, _______, TERMF,
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_UP,   _______, _______,
+  _______, _______, _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT, _______
 )
 
 
@@ -343,9 +372,10 @@ layer_state_t layer_state_set_user(layer_state_t state){
 
 // [END] Layer indication with sound
 
-// [START] custom mod tap definition
+// [START] Custom key behaviour
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+//-----> [START] Custom mode tap definitions ******************************
         case MO_8:
             if (!record->tap.count && record->event.pressed){
                 if (biton32(layer_state) == _WINQW) {
@@ -470,9 +500,90 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_off(_WISHI); // intercept hold function button release
             }
             return false;  // Return false to avoid normal processing of mod-tap
+        case LT_LSPC:
+            if (record->tap.count && record->event.pressed){
+                tap_code16(ALFRED); // intercept tap function
+            } else if (record->event.pressed){
+                // intercept hold function to press
+                layer_on(_SYMBOLS);
+            } else {
+                layer_off(_SYMBOLS); // intercept hold function button release
+            }
+            return false;  // Return false to avoid normal processing of mod-tap
+        case LT_RSPC:
+            if (record->tap.count && record->event.pressed){
+                tap_code16(KC_SPC); // intercept tap function
+            } else if (record->event.pressed){
+                // intercept hold function to press
+                layer_on(_SYMBOLS);
+            } else {
+                layer_off(_SYMBOLS); // intercept hold function button release
+            }
+            return false;  // Return false to avoid normal processing of mod-tap
+
+
+//-----> [END] Custom mode tap definitions  ******************************
+
+//-----> [START] Custom keycode definition  ******************************
+        // case FOO:
+        //       if (record->event.pressed) {
+        //         // Do something when pressed
+        //       } else {
+        //         // Do something else when release
+        //       }
+        //       return false; // Skip all further processing of this key
+//-----> [END] Custom keycode definition  ******************************
+
+//-----> [START] Override keycode function  ******************************
+        // case KC_ENTER:
+        //       // Play a tone when enter is pressed
+        //       if (record->event.pressed) {
+        //         PLAY_SONG(tone_qwerty);
+        //       }
+        //       return true; // Let QMK send the enter press/release events
+//-----> [END] Custom mode tap definitions  ******************************
+
+
+// [START] Macro definitions ************************************
+        case MA_SBRA:  // send [] JIS
+            if (record->event.pressed) {
+                // when keycode QMKBEST is pressed
+                tap_code16(KC_RBRC);
+                tap_code16(KC_BSLS);
+                tap_code16(KC_LEFT);
+            } else {
+                // when keycode MA_SBRA is released
+            }
+            break;
+
+        case MA_CBRA: // send {} JIS
+            if (record->event.pressed) {
+                // when keycode QMKURL is pressed
+                tap_code16(KC_RCBR); // intercept hold function to send {}
+                tap_code16(KC_PIPE);
+                tap_code16(KC_LEFT);
+            } else {
+                // when keycode MA_CBRA is released
+            }
+            break;
+
+        case MA_PAR: // send () JIS
+            if (record->event.pressed) {
+                tap_code16(KC_ASTERISK);
+                tap_code16(KC_LEFT_PAREN);
+                tap_code16(KC_LEFT);
+            }
+            break;
+        case MA_ALF:
+            if (record->event.pressed) {
+              tap_code16(LGUI(LALT(KC_SPC)));
+            }
+            break;
+// [START] Macro definitions ************************************
     }
     return true;
 };
+// [END] Custom key behaviour
 
 // try to enable rolling motion on custom mod-tap key to a better performance while fast typing
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record){
