@@ -26,6 +26,7 @@ enum crkbd_layers {
   _UTIL,
   _WUTIL,
   _SYMBOLS,
+  _NUMROW,
   _DIGITS,
   _CONFIG,
 };
@@ -53,6 +54,7 @@ enum preonic_keycodes {
 #define ENT_LT LT(_CONFIG, KC_ENT)// layer change when held, enter when tapped
 #define UTIL MO(_UTIL) // change to utility layer while held
 #define CONFI MO(_CONFIG) // change to configuration layer while held
+#define DIGI MO(_NUMROW) // change layer to number row
 #define SF_UN RSFT_T(KC_RO) // shift when held, underscore when tapped
 #define WMANA LM(_WMANAGE, MOD_LCTL | MOD_LALT | MOD_LSFT)  // change to windows management layer
 #define DESK MO(_DESKTOP)  // change to desktop control layer
@@ -171,9 +173,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_UTIL] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, _______, _______, _______, _______, _______,                      KC_PGUP, MM_LE  , KC_UP  , MM_RI  , PIPE   , WBACK  ,
+      _______, _______, _______, _______, _______, _______,                      KC_PGUP, MM_LE  , KC_UP  , MM_RI  , ACCENT , WBACK  ,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, ACCENT , WBACK  ,
+      _______, XXXXXXX, _______, _______, XXXXXXX, XXXXXXX,                      KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_SCLN, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      MM_N   , SP_LE  , _______, SP_RI  , BSLS   , _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -201,6 +203,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      _______, _______, _______, _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, DIGI   , _______,    _______, DIGI   , _______
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  [_NUMROW] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, KC_1   , KC_2   , KC_3   , KC_4   , KC_5   ,                      KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      _______, _______, _______, _______, _______, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
@@ -219,11 +233,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_CONFIG] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______, _______, _______, _______, _______, _______,                      _______, _______, KC_UP  , _______, _______, _______,
+      _______, _______, MA_PAR , MA_SBRA, MA_CBRA, _______,                      _______, _______, KC_UP  , _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, _______, _______, _______, _______, _______,                      _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,
+      _______, _______, JIS_LPA, JIS_LSB, JIS_LCB, _______,                      _______, KC_LEFT, KC_DOWN, KC_RGHT, _______, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, _______, _______,
+      _______, _______, JIS_RPA, JIS_RSB, JIS_RCB, _______,                      _______, _______, _______, _______, _______, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, ROKA   ,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -242,35 +256,35 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   return rotation;
 }
 
-void oled_render_layer_state(void) {
-    oled_write_P(PSTR("Layer: "), false);
-    switch (layer_state) {
-        case _QWERTY:
-            oled_write_ln_P(PSTR("Qwerty"), false);
-            break;
-        case _WINQW:
-            oled_write_ln_P(PSTR("Windows"), false);
-            break;
-        case _WISHI:
-            oled_write_ln_P(PSTR("Win_shift"), false);
-            break;
-        case _UTIL:
-            oled_write_ln_P(PSTR("Utility"), false);
-            break;
-        case _WUTIL:
-            oled_write_ln_P(PSTR("Win Util"), false);
-            break;
-        case _SYMBOLS:
-            oled_write_ln_P(PSTR("Symbols"), false);
-            break;
-        case _DIGITS:
-            oled_write_ln_P(PSTR("Digits"), false);
-            break;
-        case _CONFIG:
-            oled_write_ln_P(PSTR("Config"), false);
-            break;
-    }
-}
+// void oled_render_layer_state(void) {
+//     oled_write_P(PSTR("Layer: "), false);
+//     switch (layer_state) {
+//         case _QWERTY:
+//             oled_write_ln_P(PSTR("Qwerty"), false);
+//             break;
+//         case _WINQW:
+//             oled_write_ln_P(PSTR("Windows"), false);
+//             break;
+//         case _WISHI:
+//             oled_write_ln_P(PSTR("Win_shift"), false);
+//             break;
+//         case _UTIL:
+//             oled_write_ln_P(PSTR("Utility"), false);
+//             break;
+//         case _WUTIL:
+//             oled_write_ln_P(PSTR("Win Util"), false);
+//             break;
+//         case _SYMBOLS:
+//             oled_write_ln_P(PSTR("Symbols"), false);
+//             break;
+//         case _DIGITS:
+//             oled_write_ln_P(PSTR("Digits"), false);
+//             break;
+//         case _CONFIG:
+//             oled_write_ln_P(PSTR("Config"), false);
+//             break;
+//     }
+// }
 
 // void oled_render_keylog(void) {
 //     oled_write(keylog_str, false);
@@ -294,21 +308,57 @@ void oled_render_layer_state(void) {
 //     }
 // }
 
-// void oled_render_logo(void) {
-//     static const char PROGMEM crkbd_logo[] = {
-//         0xFF, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
-//         0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xff, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
-//         0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
-//         0};
-//     oled_write_P(crkbd_logo, false);
-// }
+void oled_render_logo(void) {
+    static const char PROGMEM crkbd_logo[] = {
+        0xFF, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
+        0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xff, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
+        0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
+        0};
+    oled_write_P(crkbd_logo, false);
+}
+
+// [START] Layer indication with sound
+layer_state_t layer_state_set_user(layer_state_t state){
+  oled_write_P(PSTR("Layer: "), false);
+  switch (get_highest_layer(state)) {
+    case _QWERTY:
+        oled_write_ln_P(PSTR("Qwerty"), false);
+        break;
+    case _WINQW:
+        oled_write_ln_P(PSTR("Windows"), false);
+        break;
+    case _WISHI:
+        oled_write_ln_P(PSTR("Win_shift"), false);
+        break;
+    case _UTIL:
+        oled_write_ln_P(PSTR("Utility"), false);
+        break;
+    case _WUTIL:
+        oled_write_ln_P(PSTR("Win Util"), false);
+        break;
+    case _SYMBOLS:
+        oled_write_ln_P(PSTR("Symbols"), false);
+        break;
+    case _NUMROW:
+        oled_write_ln_P(PSTR("Number row"), false);
+    case _DIGITS:
+        oled_write_ln_P(PSTR("Digits"), false);
+        break;
+    case _CONFIG:
+        oled_write_ln_P(PSTR("Config"), false);
+        break;
+  }
+  return state;
+}
+
+// [END] Layer indication with sound
 
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
-        oled_render_layer_state();
+        // oled_render_layer_state();
         // oled_render_keylog();
     } else {
-        // oled_render_logo();
+        oled_render_logo();
     }
     return false;
 }
