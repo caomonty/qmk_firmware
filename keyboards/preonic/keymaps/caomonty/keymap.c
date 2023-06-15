@@ -543,8 +543,41 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record){
     switch (keycode) {
         case W_SHIFT:
             return true; // immediately select the hold action when another key is pressed
+        case SF_UN:
+            return true;
+        case LT_LSPC:
+            return true;
+        case LT_RSPC:
+            return false;
         default:
             return false; // other keys behave as normal
+    }
+}
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case MO_Q:
+            return TAPPING_TERM + 500;
+        case MO_W:
+            return TAPPING_TERM + 500;
+        case MO_E:
+            return TAPPING_TERM + 500;
+        case MO_R:
+            return TAPPING_TERM + 500;
+        case MO_T:
+            return TAPPING_TERM + 500;
+        case MO_Y:
+            return TAPPING_TERM + 500;
+        case MO_U:
+            return TAPPING_TERM + 500;
+        case MO_I:
+            return TAPPING_TERM + 500;
+        case MO_O:
+            return TAPPING_TERM + 500;
+        case MO_P:
+            return TAPPING_TERM + 500;
+        default:
+            return TAPPING_TERM;
     }
 }
 // [END] custom mod tap definition
