@@ -1,12 +1,13 @@
 # Description
 
-
 # Compile code
+
 ```
 qmk compile -kb preonic/rev3_drop -km caomonty
 ```
 
 # Flash
+
 ```
 qmk flash -kb preonic/rev3_drop -km caomonty
 ```
@@ -24,5 +25,6 @@ qmk compile -kb preonic/rev3_drop -km via
 qmk flash -kb preonic/rev3_drop -km via
 ```
 
-
 Configuration planned to use as JIS keyboard, mainly on Mac
+
+test with versioning

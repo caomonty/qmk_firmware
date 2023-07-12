@@ -24,9 +24,13 @@
 
 #define MUSIC_MASK (keycode != KC_NO)
 #define TAPPING_TERM 200
-#define PERMISSIVE_HOLD
+#define PERMISSIVE_HOLD_PER_KEY
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #define TAPPING_TERM_PER_KEY
+// #define ONESHOT_TAP_TOGGLE 5  /* Tapping this number of times holds the key until tapped once again. */
+#define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
+
+
 // HOLD ON OTHER KEY PRESS this take presedence over permissiv allows rolling press be detected as a hold action
 /*
  * MIDI options
