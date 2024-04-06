@@ -21,19 +21,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum crkbd_layers {
   _QWERTY,
-  _WINQW,
-  _WISHI,
+  _COLEMAK,
   _UTIL,
   _WUTIL,
-  _SYMBOLS,
-  _NUMROW,
+  _DESKTOP,
   _DIGITS,
   _CONFIG,
+  _SYMBOLS,
 };
 
 /*********************** [START] Macro and keycode declarations ************************/
 
-enum preonic_keycodes {
+enum crkbd_keycodes {
   QWERTY = SAFE_RANGE,
   MA_SBRA,
   MA_CBRA,
@@ -47,49 +46,70 @@ enum preonic_keycodes {
 /*********************** [END] Marcro declarations ************************/
 
 
+/*********************** [END] Marcro declarations ************************/
+
+
 /*********************** [START] Aliases ************************/
 
+
+/*********************** [START] Aliases ************************/
+
+// Aliases Fix japanese key codes
+#define KC_RO KC_INTERNATIONAL_1
+#define KC_JYEN KC_INTERNATIONAL_3
+#define KC_KANA KC_LANGUAGE_1
+#define KC_EISU KC_LANGUAGE_2
+
+// Custom layer tap and hold
+#define LT_TAB LT(_DIGITS, KC_TAB) // layer digits when held, tab when tapped
+#define ENT_LT LT(_DESKTOP, KC_ENT)// layer change when held, enter when tapped
+#define UTIL MO(_UTIL)
+
 // Aliases to shorten code
-#define LT_1 LT(_DIGITS, KC_TAB) // layer digits when held, tab when tapped
-#define ENT_LT LT(_CONFIG, KC_ENT)// layer change when held, enter when tapped
-#define UTIL MO(_UTIL) // change to utility layer while held
+ // change to utility layer while held
 #define CONFI MO(_CONFIG) // change to configuration layer while held
-#define DIGI MO(_NUMROW) // change layer to number row
 #define SF_UN RSFT_T(KC_RO) // shift when held, underscore when tapped
-#define WMANA LM(_WMANAGE, MOD_LCTL | MOD_LALT | MOD_LSFT)  // change to windows management layer
 #define DESK MO(_DESKTOP)  // change to desktop control layer
 #define SPOT A(G(KC_SPC))  // Open spotlight, It may need to change the hotkey inside configuration
 #define SCREEN G(S(KC_4))  // Mac screenshot hotkey
 #define TERMF C(S(KC_T))   // New terminal at folder, (it needs configuration inside shortcuts -> services)
 #define CGUI C(KC_LGUI) // Control + Left Gui
 #define MINE TG(_MINE)
-#define JIS_LPA KC_ASTERISK // Left parenthesis
-#define JIS_RPA KC_LEFT_PAREN // Right parenthesis
-#define JIS_LCB KC_RCBR // Left curly brace
-#define JIS_RCB KC_PIPE // Right curly brace
-#define JIS_LSB KC_RBRC // left square bracket
-#define JIS_RSB KC_BSLS // Right bracket
-#define ASTER S(KC_QUOT) // directly input * symbol
-#define ACEJUMP C(KC_SCLN) // default AceJump hotkey for Jetbrains software
+#define GUI_ENT G(KC_ENT) // Gui + Enter
 
-#define SYM_AT KC_LBRC // @ symbol using JIS config
+
+// Symbol Aliases
+
+#define SYM_AT KC_LBRC // "@" symbol using JIS config
+#define JIS_LPA KC_ASTERISK // "(" Left parenthesis
+#define JIS_RPA KC_LEFT_PAREN // ")" Right parenthesis
+#define JIS_LCB KC_RCBR // "{" Left curly brace
+#define JIS_RCB KC_PIPE // "}" Right curly brace
+#define JIS_LSB KC_RBRC // "[" left square bracket
+#define JIS_RSB KC_BSLS // "]" Right bracket
+#define BSLS A(KC_JYEN)  // "\" backslash
+#define PIPE S(KC_JYEN) // "|" pipe
+#define POT KC_EQL // "^"
+#define CURD KC_TILD // "~"
+#define BACKTIK KC_GRV // "`" character (JIS) // KC_LCBR
+#define EQUAL KC_UNDS // "=" equals JIS
+#define PLUS KC_COLN // "+" equals JIS
+#define ASTER KC_DQUO // "*" equals JIS
+#define DIV KC_SLSH // "/" equals JIS
+#define MINUS KC_MINS // "-" equals JIS
 
 #define MM_LE G(KC_LEFT) // move to the start of the current line (*1)
 #define MM_RI G(KC_RGHT) // move to the end of the current line   (*2)
 #define SP_LE A(KC_LEFT) // move the caret one word to the left   (*3)
 #define SP_RI A(KC_RGHT) // move the caret one word to the right  (*4)
-#define EQUAL S(KC_MINS) // equals JIS
-#define BSLS A(KC_JYEN)  // backslash
-#define PIPE S(KC_JYEN) // pipe
 #define MM_N A(KC_N) // input ˜ character JIS keyboard
-#define BACKTIK S(KC_LBRC) // input ` character (JIS)
 #define ACCENT A(KC_E) // input spanish accent using JIS
-#define JI_LBRC KC_RBRC // input [ using JIS
 #define JI_QUOT S(KC_7) // input ' using JIS
 #define JI_LCBR S(KC_RBRC) // input { using JIS
-#define JI_LPRN S(KC_8) // input ( using JIS
+#define JI_LPRN KC_ASTR // input ( using JIS
 #define ALFRED LGUI(LALT(KC_SPC)) // activate alfred in OSx
 #define WBACK LALT(KC_BSPC)
+#define MACLOCK G(C(KC_Q))
 
 // Windows-specific codes to emulate the JIS keyboard on a US layout setup
 #define WUTIL MO(_WUTIL)
@@ -98,18 +118,15 @@ enum preonic_keycodes {
 #define WM_LE A(KC_LEFT) // moves caret to the start of the line
 #define WM_RI A(KC_RGHT) // moves caret to the end of the line
 #define WP_LE C(KC_LEFT) // moves caret to the start of the previous word
-#define WP_RI C(KC_RIGHT) // moves caret to the next word
-#define WI_ON TG(_WINQW) // toggles the layer on or off
+#define WP_RI C(KC_RIGHT) // moves caret tot the next word
+#define COL_ON TG(_COLEMAK) // toggles the layer on or off
 
 // Custom mod-tap
-#define MO_7 LT(0, KC_7) // () on hold 7 on tap
-#define MO_8 LT(0, KC_8) // [] on hold 8 on tap
-#define MO_9 LT(0, KC_9) // {} on hold 9 on tap
-#define MO_P LT(0, KC_P) // @ on hold p on tap
+#define MO_QUOT LT(0, KC_QUOT) // @ on hold : on tap
 #define MO_X LT(0, KC_X) // Cut on hold X on tap
 #define MO_C LT(0, KC_C) // Copy on hold C on tap
 #define MO_V LT(0, KC_V) // Paste on hold V on tap
-#define ROKA LT(0, KC_HANJ) // change to Romaji input on tap, change to kanji on hold
+#define ROKA LT(0, KC_EISU) // change to Romaji input on tap, change to kanji on hold
 #define DOT_3 LT(0, KC_3) // dot on hold 3 on tap,
 #define COMM_2 LT(0, KC_2) // comma on hold, 2 on tap
 #define W_SHIFT LT(0, KC_SLSH) // exclusive use for windows underscore and shift
@@ -130,6 +147,8 @@ enum preonic_keycodes {
 #define DC_RGHT C(KC_RGHT) // move to right desktop
 #define DC_EXPO C(KC_DOWN) // show expose
 #define DC_MISI C(KC_UP)   // show mission control
+
+#define EXTRA_DELAY 200
 
 /*********************** [END] Aliases ************************/
 
@@ -247,8 +266,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 /*********************** [END] Keyboard Layout ************************/
-
-/*********************** [START] OLED display config ************************/
+/*********************** [START] Keyboard specific config ************************/
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -257,58 +275,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   }
   return rotation;
 }
-
-// void oled_render_layer_state(void) {
-//     oled_write_P(PSTR("Layer: "), false);
-//     switch (layer_state) {
-//         case _QWERTY:
-//             oled_write_ln_P(PSTR("Qwerty"), false);
-//             break;
-//         case _WINQW:
-//             oled_write_ln_P(PSTR("Windows"), false);
-//             break;
-//         case _WISHI:
-//             oled_write_ln_P(PSTR("Win_shift"), false);
-//             break;
-//         case _UTIL:
-//             oled_write_ln_P(PSTR("Utility"), false);
-//             break;
-//         case _WUTIL:
-//             oled_write_ln_P(PSTR("Win Util"), false);
-//             break;
-//         case _SYMBOLS:
-//             oled_write_ln_P(PSTR("Symbols"), false);
-//             break;
-//         case _DIGITS:
-//             oled_write_ln_P(PSTR("Digits"), false);
-//             break;
-//         case _CONFIG:
-//             oled_write_ln_P(PSTR("Config"), false);
-//             break;
-//     }
-// }
-
-// void oled_render_keylog(void) {
-//     oled_write(keylog_str, false);
-// }
-
-
-
-
-// void render_bootmagic_status(bool status) {
-//     /* Show Ctrl-Gui Swap options */
-//     static const char PROGMEM logo[][2][3] = {
-//         {{0x97, 0x98, 0}, {0xb7, 0xb8, 0}},
-//         {{0x95, 0x96, 0}, {0xb5, 0xb6, 0}},
-//     };
-//     if (status) {
-//         oled_write_ln_P(logo[0][0], false);
-//         oled_write_ln_P(logo[0][1], false);
-//     } else {
-//         oled_write_ln_P(logo[1][0], false);
-//         oled_write_ln_P(logo[1][1], false);
-//     }
-// }
 
 void oled_render_logo(void) {
     static const char PROGMEM crkbd_logo[] = {
@@ -365,83 +331,26 @@ bool oled_task_user(void) {
     return false;
 }
 
-/*********************** [END] OLED display config ************************/
-
-/*********************** [START] Custom behaviour ************************/
-
 #endif // OLED_ENABLE
 
-/*********************** [END] Custom behaviour ************************/
+/*********************** [END] Keyboard specific config ************************/
+/*********************** [START] Custom key definitions ************************/
 
-
-// [START] Custom key behaviour
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-//-----> [START] Custom mode tap definitions ******************************
-        case MO_8:
+//-----> [START] Custom mode tap definitions *****************************
+        case MO_QUOT:
             if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _WINQW) {
-                    tap_code16(KC_LPRN);
-                    tap_code16(KC_RPRN);
-                    tap_code16(KC_LEFT);
-                }
-                else {
-                    tap_code16(KC_ASTERISK); // intercept hold functon to send ()
-                    tap_code16(KC_LEFT_PAREN);
-                    tap_code16(KC_LEFT);
-
-                }
+                tap_code16(KC_LBRC); // intercept hold function
                 return false;
             }
             return true;  // Return true for normal processing of tap keycode
-        case MO_7:
-            if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _WINQW) {
-                    tap_code16(KC_LBRC); // send [] on windows
-                    tap_code16(KC_RBRC);
-                    tap_code16(KC_LEFT);
-                }
-                else {
-                    tap_code16(KC_RBRC); // intercept hold function to send [] (JIS)
-                    tap_code16(KC_BSLS);
-                    tap_code16(KC_LEFT);
-                }
 
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_9:
-            if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _WINQW) {
-                    tap_code16(KC_LCBR);
-                    tap_code16(KC_RCBR);
-                    tap_code16(KC_LEFT);
-                }
-                else {
-                    tap_code16(KC_RCBR); // intercept hold function to send {}
-                    tap_code16(KC_PIPE);
-                    tap_code16(KC_LEFT);
-                }
-
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_P:
-            if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _WINQW) {
-                    tap_code16(S(KC_2)); // send @ on windows
-                }
-                else {
-                    tap_code16(KC_LBRC); // intercept hold function to send @ (JIS
-                }
-
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
         case MO_X:
             if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _WINQW) {
-                    tap_code16(C(KC_X)); // cut on windows
+                if (biton32(layer_state) == _COLEMAK) {
+                    // tap_code16(C(KC_X)); // todo find a better way to do it on  windows
+                    tap_code16(G(KC_X));
                 }
                 else {
                     tap_code16(G(KC_X)); // intercept hold function to send cmd-X
@@ -452,8 +361,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;  // Return true for normal processing of tap keycode
         case MO_C:
             if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _WINQW) {
-                    tap_code16(C(KC_C)); // copy on windows
+                if (biton32(layer_state) == _COLEMAK) {
+                    tap_code16(G(KC_C)); // todo find a better way to do it on  windows
                 }
                 else {
                     tap_code16(G(KC_C)); // intercept hold function to send # cmd-C
@@ -464,8 +373,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;  // Return true for normal processing of tap keycode
         case MO_V:
             if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _WINQW) {
-                    tap_code16(C(KC_V)); // paste on windows
+                if (biton32(layer_state) == _COLEMAK) {
+                    // tap_code16(C(KC_V)); // paste on windows
+                    tap_code16(G(KC_V));
                 }
                 else {
                     tap_code16(G(KC_V)); // intercept hold function to send cmd-V
@@ -476,7 +386,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;  // Return true for normal processing of tap keycode
         case ROKA:
             if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_HAEN); // intercept hold function to send HAEN
+                tap_code16(KC_KANA); // intercept hold function to send KANA
                 return false;
             }
             return true;  // Return true for normal processing of tap keycode
@@ -492,16 +402,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             return true;  // Return true for normal processing of tap keycode
-        case W_SHIFT:
-            if (record->tap.count && record->event.pressed){
-                tap_code16(KC_UNDS); // intercept tap function to send _
-            } else if (record->event.pressed){
-                // intercept hold function to press
-                layer_on(_WISHI);
-            } else {
-                layer_off(_WISHI); // intercept hold function button release
-            }
-            return false;  // Return false to avoid normal processing of mod-tap
+        // case W_SHIFT:
+        //     if (record->tap.count && record->event.pressed){
+        //         tap_code16(KC_UNDS); // intercept tap function to send _
+        //     } else if (record->event.pressed){
+        //         // intercept hold function to press
+        //         layer_on(_WISHI);
+        //     } else {
+        //         layer_off(_WISHI); // intercept hold function button release
+        //     }
+        //     return false;  // Return false to avoid normal processing of mod-tap
         case LT_LSPC:
             if (record->tap.count && record->event.pressed){
                 tap_code16(ALFRED); // intercept tap function
@@ -585,21 +495,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 };
-// [END] Custom key behaviour
-
+/*********************** [END] Custom key definitions ************************/
+/*********************** [START] Extra optimizations ************************/
 
 // try to enable rolling motion on custom mod-tap key to a better performance while fast typing
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record){
     switch (keycode) {
         case W_SHIFT:
             return true; // immediately select the hold action when another key is pressed
+        case SF_UN:
+            return true;
+        case LT_LSPC:
+            return true;
+        case ENT_LT:
+            return true;
+        case UTIL:
+            return true;
+        case LT_TAB:
+            return true;
         default:
             return false; // other keys behave as normal
     }
 }
-// [END] custom mod tap definition
 
-
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT_RSPC:
+            // Activate permissive hold on this key
+            return true;
+        default:
+            // Use default mode for every other key
+            return false;
+    }
+}
+/*********************** [END] Extra optimizations ************************/
 
 
 
