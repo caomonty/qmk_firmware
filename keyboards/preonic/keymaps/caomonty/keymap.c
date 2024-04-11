@@ -2,10 +2,10 @@
 #include "muse.h"
 
 enum preonic_layers {
+  _COLEMAK, // DH variant
   _QWERTY,
-  _QWERTY_WIN,
+  _DVORAK,
   _UTIL,
-  _WUTIL,
   _DESKTOP,
   _DIGITS,
   _CONFIG,
@@ -25,13 +25,14 @@ enum preonic_keycodes {
 };
 
 
-/*********************** [END] Marcro declarations ************************/
+/*********************** [END] Macro declarations ************************/
 
 float util_on[][2] = SONG(M__NOTE(_C4, 1),);
 float desktop_on[][2] = SONG(M__NOTE(_D4, 1),);
 float numeric_on[][2] = SONG(M__NOTE(_E4, 1),);
 float windows_on[][2] = SONG(M__NOTE(_F4, 1));
 float config_on[][2] = SONG(M__NOTE(_B4, 1),);
+
 /*********************** [START] Aliases ************************/
 
 // Aliases Fix japanese key codes
@@ -92,26 +93,16 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define MACLOCK G(C(KC_Q))
 
 // Windows-specific codes to emulate the JIS keyboard on a US layout setup
-#define WUTIL MO(_WUTIL)
 #define WISHIFT MO(_WISHI)
 #define WI_SLSH KC_SLSH
 #define WM_LE A(KC_LEFT) // moves caret to the start of the line
 #define WM_RI A(KC_RGHT) // moves caret to the end of the line
 #define WP_LE C(KC_LEFT) // moves caret to the start of the previous word
 #define WP_RI C(KC_RIGHT) // moves caret tot the next word
-#define WI_ON TG(_QWERTY_WIN) // toggles the layer on or off
+#define COL_ON TO(_COLEMAK) // deactivates all layers but Base and Colemak
+#define QWE_ON TO(_QWERTY) // activates only base layer
 
 // Custom mod-tap
-#define MO_Q LT(0, KC_Q) // 1 on hold q on tap
-#define MO_W LT(0, KC_W) // 2 on hold w on tap
-#define MO_E LT(0, KC_E) // 3 on hold e on tap
-#define MO_R LT(0, KC_R) // 4 on hold r on tap
-#define MO_T LT(0, KC_T) // 5 on hold t on tap
-#define MO_Y LT(0, KC_Y) // 6 on hold y on tap
-#define MO_U LT(0, KC_U) // 7 on hold y on tap
-#define MO_I LT(0, KC_I) // 8 on hold y on tap
-#define MO_O LT(0, KC_O) // 9 on hold y on tap
-#define MO_P LT(0, KC_P) // 0 on hold p on tap
 #define MO_QUOT LT(0, KC_QUOT) // @ on hold : on tap
 #define MO_X LT(0, KC_X) // Cut on hold X on tap
 #define MO_C LT(0, KC_C) // Copy on hold C on tap
@@ -141,129 +132,127 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define EXTRA_DELAY 200
 
 /*********************** [END] Aliases ************************/
+/*********************** [START] Keyboard Template ************************/
 
+/*
+
+  [_LAYER] = LAYOUT_preonic_grid (
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
+  //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
+  ),
+
+*/
+
+/*********************** [End] Keyboard Template ************************/
+/*********************** [START] Keyboard Layout ************************/
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-/* Qwerty
- * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
- * │        │        │        │        │        │        │        │        │        │        │        │        │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │ ⇆ | [#]│  Q | 1 │  W | 2 │  E | 3 │  R | 4 │ T | 5  │ Y | 6  │ U | 7  │ I | 8  │ O | 9  │ P | @  │ ← | ?  │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │ C | [U]│   A    │    S   │    D   │    F   │   G    │   H    │   J    │    K   │   L    │  : | @ │   Ent  │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │   ⇧    │   Z    │    X   │    C   │    V   │   B    │   N    │   M    │    ,   │   .    │   /    │ shift _│
- * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┴────────┼────────┼────────┼────────┼────────┤
- * │  ___   │  CTL   │ Alt    │ GUI    │ Alfred | [¥1]   │   Space | [¥1]  │ GUI    │ '      │   @    │ LayerC │
- * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
- */
+[_COLEMAK] = LAYOUT_preonic_grid (
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      LT_TAB  , KC_Q    , KC_W    , KC_F    , KC_P    , KC_B    , KC_J    , KC_L    , KC_U    , KC_Y    , MO_QUOT , KC_BSPC ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , KC_A    , KC_R    , KC_S    , KC_T    , KC_G    , KC_M    , KC_N    , KC_E    , KC_I    , KC_O    , ENT_LT  ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , KC_Z    , MO_X    , MO_C    , KC_D    , MO_V    , KC_K    , KC_H    , KC_COMM , KC_DOT  , KC_SLSH , SF_UN   ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      XXXXXXX , XXXXXXX , KC_LCTL , KC_LGUI , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , CONFI   , KC_LALT , XXXXXXX , XXXXXXX
+  //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
+),
 [_QWERTY] = LAYOUT_preonic_grid (
-  XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX,  XXXXXXX,   XXXXXXX, XXXXXXX,
-  LT_TAB,   MO_Q,    MO_W,    MO_E,    MO_R,    MO_T,    MO_Y,    MO_U,      MO_I,     MO_O,      MO_P,    KC_BSPC,
-  UTIL,     KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,      KC_K,     KC_L,      MO_QUOT, ENT_LT ,
-  KC_LSFT,  KC_Z,    MO_X,    MO_C,    MO_V,    KC_B,    KC_N,    KC_M,      KC_COMM,  KC_DOT,    KC_SLSH, SF_UN  ,
-  XXXXXXX,  KC_LCTL, KC_LALT, KC_LGUI, LT_LSPC, LT_LSPC, LT_RSPC, LT_RSPC,   CONFI,    KC_LEFT,   KC_DOWN, KC_RGHT
-),
-[_QWERTY_WIN] = LAYOUT_preonic_grid(
- _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
- _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
- _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
- _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
- _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-),
-/* Utility
- * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
- * │   ~    │  F1    │ F2     │ F3     │ F4     │  F5    │        │        │   '    │    `   │   |    │   ^    │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │  F6    │ F7     │ F8     │ F9     │ F10    │  pg up │   *1   │   up   │   *2   │ Accent │ Delete │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │ DeskMa │ WinMa  │        │ F11    │ F12    │ pg down│   left │   down │  right │   :    │        │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │ Caps   │        │        │        │        │        │        │   *3   │        │   *4   │   \    │        │
- * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┴────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │  Ctrl + GUI     │   Spotlight     │        │        │        │        │
- * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
- */
-[_UTIL] = LAYOUT_preonic_grid(
-  _______, _______, _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, KC_F1  ,  KC_F2  , KC_F3  , KC_F4  , KC_PGUP, MM_LE,   KC_UP,   MM_RI,   ACCENT , WBACK ,
-  _______, _______, KC_F5  ,  KC_F6  , KC_F7  , KC_F8  , KC_PGDN, KC_LEFT, KC_DOWN, KC_RGHT, KC_SCLN, _______,
-  _______, _______, KC_F9  ,  KC_F10 , KC_F11 , KC_F12 , MM_N   , SP_LE,   _______, SP_RI,   BSLS,    KC_RSFT,
-  _______, _______, _______,  _______, CGUI,    CGUI,    SPOT,    SPOT,    _______, _______, _______, _______
-),
-/* Dektop Control
- * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
- * │        │        │        │        │        │        │        │        │        │        │        │        │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │ Menu   │Notific │MissionC│ Dash   │        │        │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │ Dock   │Left Des│ Expose │Rght Des│        │        │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │ Tool   │ Stat   │ Drawer │Laun pad│        │        │
- * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┴────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │                 │     Help        │        │        │        │        │
- * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
- */
-[_DESKTOP] = LAYOUT_preonic_grid(
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, MA_PAR , MA_SBRA, MA_CBRA, PIPE   , _______, _______, _______, _______, _______, _______,
-  _______, _______, JIS_LPA, JIS_LSB, JIS_LCB, CURD   , _______, _______, _______, _______, _______, _______,
-  _______, _______, JIS_RPA, JIS_RSB, JIS_RCB, POT    , _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-),
-[_SYMBOLS] = LAYOUT_preonic_grid(
- _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
- QK_GESC, KC_EXLM, KC_AT  , KC_HASH, KC_DLR , KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, SYM_AT , KC_MINS,
- _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, GUI_ENT,
- _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_SLSH, _______,
- _______, _______, _______, _______, KC_EISU, KC_EISU, KC_KANA, KC_KANA, _______, _______, _______, _______
-),
-/* Digits
- * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
- * │        │        │        │        │        │        │        │        │    {   │    }   │        │        │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │   /    │    *   │    |   │    ¥   │   7    │   8    │    9   │   /    │        │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │   -    │    +   │    ~   │    $   │   4    │   5    │   6    │   *    │        │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │    ,   │   .    │    ^   │    ^   │   1    │   2    │   3    │   -    │        │
- * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┴────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │                 │        0        │   .    │   ,    │   +    │        │
- * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
- */
-[_DIGITS] = LAYOUT_preonic_grid(
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-  _______, _______, _______, DIV    , ASTER  , PIPE   , KC_JYEN, KC_P7,   KC_P8,   KC_P9,   KC_PSLS, _______,
-  _______, _______, _______, MINUS  , PLUS   , CURD   , KC_DLR , KC_P4,   KC_P5,   KC_P6,   KC_PAST, EQUAL  ,
-  _______, _______, _______, KC_COMM, KC_DOT , POT    , KC_EQL,  KC_P1,   COMM_2,  DOT_3,   KC_PMNS, _______,
-  _______, _______, _______, _______, KC_SPC , KC_SPC , _______, KC_P0,   KC_PDOT, KC_COMM, KC_PPLS, _______
-),
 
-/* Config
- * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
- * │        │        │        │        │        │        │        │        │        │        │        │ScreenC │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │Freq up │        │        │        │        │        │  Ins   │        │        │        │
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │Click on│FreqDown│ClickOff│        │        │        │        │        │        │        │TermFold│
- * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │        │        │        │        │        │  Up    │        │        │
- * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┴────────┼────────┼────────┼────────┼────────┤
- * │        │        │        │        │                 │                 │  Left  │ Down   │ Right  │        │
- * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
- */
-[_CONFIG] = LAYOUT_preonic_grid(
-  AU_ON  , KC_TILD, KC_EXLM, KC_DLR , KC_PERC, _______, _______, _______, _______, _______, _______, _______,
-  AU_OFF , KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, _______, _______, _______, _______, _______, _______, MACLOCK,
-  _______, KC_RPRN, KC_UNDS, KC_PLUS, KC_AT  , _______, _______, _______, _______, _______, _______, _______,
-  _______, KC_HASH, KC_LCBR, KC_RCBR, KC_PIPE, _______, _______, _______, _______, _______, KC_UP,   _______,
-  KC_QUES, KC_COLN, KC_DQUO, KC_LABK, KC_RABK, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_RGHT
-)
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      LT_TAB  , KC_Q    , KC_W    , KC_E    , KC_R    , KC_T    , KC_Y    , KC_U    , KC_I    , KC_O    , KC_P    , KC_BSPC ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      UTIL    , KC_A    , KC_S    , KC_D    , KC_F    , KC_G    , KC_H    , KC_J    , KC_K    , KC_L    , MO_QUOT , ENT_LT  ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      KC_LSFT , KC_Z    , MO_X    , MO_C    , MO_V    , KC_B    , KC_N    , KC_M    , KC_COMM , KC_DOT  , KC_SLSH , SF_UN   ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      XXXXXXX , XXXXXXX , KC_LCTL , KC_LGUI , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , CONFI   , KC_LALT , XXXXXXX , XXXXXXX
+  //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
 
-
+),
+[_UTIL] = LAYOUT_preonic_grid (
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , KC_F1   ,  KC_F2  , KC_F3   , KC_F4   , KC_PGUP , MM_LE   ,   KC_UP ,   MM_RI ,  ACCENT , WBACK   ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , KC_F5   ,  KC_F6  , KC_F7   , KC_F8   , KC_PGDN , KC_LEFT , KC_DOWN , KC_RGHT , KC_SCLN , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , KC_F9   ,  KC_F10 , KC_F11  , KC_F12  , MM_N    , SP_LE   , _______ , SP_RI   , BSLS    , KC_RSFT ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
+  //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
+  ),
+[_DESKTOP] = LAYOUT_preonic_grid (
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , MA_PAR  , MA_SBRA , MA_CBRA , PIPE    , _______ , _______ , _______ , _______ , _______ , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , JIS_LPA , JIS_LSB , JIS_LCB , CURD    , _______ , _______ , _______ , _______ , _______ , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , JIS_RPA , JIS_RSB , JIS_RCB , POT     , _______ , _______ , _______ , _______ , _______ , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
+  //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
+  ),
+[_SYMBOLS] = LAYOUT_preonic_grid (
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      QK_GESC , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , SYM_AT  , KC_MINS ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , GUI_ENT ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_SLSH , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , KC_EISU , KC_EISU , KC_KANA , KC_KANA , _______ , _______ , _______ , _______
+  //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
+  ),
+[_DIGITS] = LAYOUT_preonic_grid (
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , DIV     , ASTER   , PIPE    , KC_JYEN , KC_P7   , KC_P8   , KC_P9   , KC_PSLS , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , MINUS   , PLUS    , CURD    , KC_DLR  , KC_P4   , KC_P5   , KC_P6   , KC_PAST , EQUAL   ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , KC_COMM , KC_DOT  , POT     , KC_EQL  ,  KC_P1  ,  COMM_2 ,  DOT_3  , KC_PMNS , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , KC_SPC  , KC_SPC  , KC_P0   , KC_P0   , _______ , _______ , _______ , _______
+  //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
+  ),
+[_CONFIG] = LAYOUT_preonic_grid (
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , _______, QWE_ON   , COL_ON  , _______ , _______ , _______ , MACLOCK ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , KC_RPRN , KC_UNDS , KC_PLUS , KC_AT   , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , KC_HASH , KC_LCBR , KC_RCBR , KC_PIPE , _______ , _______ , _______ , _______ , _______ , KC_UP   , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT , KC_DOWN , KC_RGHT
+  //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
+  )
 };
 
+/*********************** [END] Keyboard Layout ************************/
+/*********************** [START] Keyboard specific config ************************/
 
 bool muse_mode = false;
 uint8_t last_muse_note = 0;
@@ -322,73 +311,14 @@ layer_state_t layer_state_set_user(layer_state_t state){
   }
   return state;
 }
-
 // [END] Layer indication with sound
 
-// [START] Custom key behaviour
+/*********************** [END] Keyboard specific config ************************/
+/*********************** [START] Custom key definitions ************************/
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
 //-----> [START] Custom mode tap definitions *****************************
-        case MO_Q:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_1); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_W:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_2); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_E:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_3); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_R:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_4); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_T:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_5); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_Y:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_6); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_U:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_7); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_I:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_8); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_O:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_9); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_P:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_LBRC); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
         case MO_QUOT:
             if (!record->tap.count && record->event.pressed){
                 tap_code16(KC_LBRC); // intercept hold function
@@ -398,8 +328,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case MO_X:
             if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _QWERTY_WIN) {
-                    tap_code16(C(KC_X)); // cut on windows
+                if (biton32(layer_state) == _COLEMAK) {
+                    // tap_code16(C(KC_X)); // todo find a better way to do it on  windows
+                    tap_code16(G(KC_X));
                 }
                 else {
                     tap_code16(G(KC_X)); // intercept hold function to send cmd-X
@@ -410,8 +341,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;  // Return true for normal processing of tap keycode
         case MO_C:
             if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _QWERTY_WIN) {
-                    tap_code16(C(KC_C)); // copy on windows
+                if (biton32(layer_state) == _COLEMAK) {
+                    tap_code16(G(KC_C)); // todo find a better way to do it on  windows
                 }
                 else {
                     tap_code16(G(KC_C)); // intercept hold function to send # cmd-C
@@ -422,8 +353,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return true;  // Return true for normal processing of tap keycode
         case MO_V:
             if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _QWERTY_WIN) {
-                    tap_code16(C(KC_V)); // paste on windows
+                if (biton32(layer_state) == _COLEMAK) {
+                    // tap_code16(C(KC_V)); // paste on windows
+                    tap_code16(G(KC_V));
                 }
                 else {
                     tap_code16(G(KC_V)); // intercept hold function to send cmd-V
@@ -543,13 +475,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 };
-// [END] Custom key behaviour
+/*********************** [END] Custom key definitions ************************/
+/*********************** [START] Extra optimizations ************************/
 
 // try to enable rolling motion on custom mod-tap key to a better performance while fast typing
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record){
     switch (keycode) {
-        case W_SHIFT:
-            return true; // immediately select the hold action when another key is pressed
         case SF_UN:
             return true;
         case LT_LSPC:
@@ -575,64 +506,4 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
             return false;
     }
 }
-
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case MO_Q:
-            return TAPPING_TERM + EXTRA_DELAY;
-        case MO_W:
-            return TAPPING_TERM + EXTRA_DELAY;
-        case MO_E:
-            return TAPPING_TERM + EXTRA_DELAY;
-        case MO_R:
-            return TAPPING_TERM + EXTRA_DELAY;
-        case MO_T:
-            return TAPPING_TERM + EXTRA_DELAY;
-        case MO_Y:
-            return TAPPING_TERM + EXTRA_DELAY;
-        case MO_U:
-            return TAPPING_TERM + EXTRA_DELAY;
-        case MO_I:
-            return TAPPING_TERM + EXTRA_DELAY;
-        case MO_O:
-            return TAPPING_TERM + EXTRA_DELAY;
-        case MO_P:
-            return TAPPING_TERM;
-        default:
-            return TAPPING_TERM;
-    }
-}
-
-// [END] custom mod tap definition
-
-// void keyboard_post_init_user(void) {
-// #ifdef AUDIO_ENABLE
-//   wait_ms(500);
-// #endif
-// }
-
-// [START]  Useful templates
-// ┌─┬─┐ └─┴─┘ ├─┼─┤ │
-
-///* Blank
-// * ┌────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
-// * │        │        │        │        │        │        │        │        │        │        │        │        │
-// * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-// * │        │        │        │        │        │        │        │        │        │        │        │        │
-// * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-// * │        │        │        │        │        │        │        │        │        │        │        │        │
-// * ├────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-// * │        │        │        │        │        │        │        │        │        │        │        │        │
-// * ├────────┼────────┼────────┼────────┼────────┴────────┼────────┴────────┼────────┼────────┼────────┼────────┤
-// * │        │        │        │        │                 │                 │        │        │        │        │
-// * └────────┴────────┴────────┴────────┴─────────────────┴─────────────────┴────────┴────────┴────────┴────────┘
-// */
-//[_BLANK] = LAYOUT_preonic_grid(
-//  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-//  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-//  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-//  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-//  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-//),
-
-// [END] Useful templates
+/*********************** [END] Extra optimizations ************************/

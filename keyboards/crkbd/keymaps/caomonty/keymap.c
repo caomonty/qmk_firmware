@@ -43,15 +43,7 @@ enum crkbd_keycodes {
 };
 
 
-/*********************** [END] Marcro declarations ************************/
-
-
-/*********************** [END] Marcro declarations ************************/
-
-
-/*********************** [START] Aliases ************************/
-
-
+/*********************** [END] Macro declarations ************************/
 /*********************** [START] Aliases ************************/
 
 // Aliases Fix japanese key codes
@@ -537,6 +529,3 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     }
 }
 /*********************** [END] Extra optimizations ************************/
-
-
-
