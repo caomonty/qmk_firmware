@@ -20,6 +20,7 @@ enum preonic_keycodes {
   MA_CBRA,
   MA_PAR,
   MA_ALF,
+  MA_CODE,
   CK_LSP, // custom keycode
   CK_RSP, // custom keycode
 };
@@ -107,6 +108,7 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define MO_X LT(0, KC_X) // Cut on hold X on tap
 #define MO_C LT(0, KC_C) // Copy on hold C on tap
 #define MO_V LT(0, KC_V) // Paste on hold V on tap
+#define MO_D LT(0, KC_D) // Paste on hold, D on tap, for colemak
 #define ROKA LT(0, KC_EISU) // change to Romaji input on tap, change to kanji on hold
 #define DOT_3 LT(0, KC_3) // dot on hold 3 on tap,
 #define COMM_2 LT(0, KC_2) // comma on hold, 2 on tap
@@ -164,7 +166,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       UTIL    , KC_A    , KC_R    , KC_S    , KC_T    , KC_G    , KC_M    , KC_N    , KC_E    , KC_I    , KC_O    , ENT_LT  ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      KC_LSFT , KC_SLSH , MO_X    , MO_C    , KC_D    , MO_V    , KC_K    , KC_H    , KC_COMM , KC_DOT  , KC_Z    , SF_UN   ,
+      KC_LSFT , KC_SLSH , MO_X    , MO_C    , MO_D    , KC_V    , KC_K    , KC_H    , KC_COMM , KC_DOT  , KC_Z    , SF_UN   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       XXXXXXX , XXXXXXX , KC_LCTL , KC_LGUI , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , CONFI   , KC_LALT , XXXXXXX , XXXXXXX
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -214,11 +216,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      QK_GESC , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , SYM_AT  , KC_MINS ,
+      QK_GESC , MA_CODE , KC_LABK , KC_RABK , KC_AMPR , KC_AT   , KC_CIRC , KC_SCLN , JIS_LSB , JIS_RSB , SYM_AT  , KC_MINS ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , GUI_ENT ,
+      _______ , KC_EXLM , KC_MINS , PLUS    , EQUAL   , KC_HASH , PIPE    , KC_QUOT , JIS_LPA , JIS_RPA , KC_QUES , GUI_ENT ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_SLSH , _______ ,
+      _______ , POT     , KC_SLSH , ASTER   , BSLS    , _______ , CURD    , KC_DLR  , JIS_LCB , JIS_RCB , KC_PERC , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , KC_EISU , KC_EISU , KC_KANA , KC_KANA , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -364,6 +366,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             return true;  // Return true for normal processing of tap keycode
+        case MO_D:
+            if (!record->tap.count && record->event.pressed){
+                tap_code16(G(KC_V));
+                return false;
+            }
+            return true;  // Return true for normal processing of tap keycode
         case ROKA:
             if (!record->tap.count && record->event.pressed){
                 tap_code16(KC_KANA); // intercept hold function to send KANA
@@ -469,6 +477,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MA_ALF:
             if (record->event.pressed) {
               tap_code16(LGUI(LALT(KC_SPC)));
+            }
+            break;
+        case MA_CODE: // send ```
+            if (record->event.pressed) {
+              tap_code16(S(SYM_AT));
+              tap_code16(S(SYM_AT));
+              tap_code16(S(SYM_AT));
             }
             break;
 // [START] Macro definitions ************************************
