@@ -1,5 +1,11 @@
 # Description
 
+dont foget to install the sub modules
+
+```
+make git-submodule
+```
+
 # Compile code
 
 ```
