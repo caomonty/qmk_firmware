@@ -29,6 +29,9 @@
 #define TAPPING_TERM_PER_KEY
 // #define ONESHOT_TAP_TOGGLE 5  /* Tapping this number of times holds the key until tapped once again. */
 #define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
+// remove the ability to auto repeat, (double tapping dual role key would emit hold of the tap action) Warning: this affects
+// TT layer keycode and one shot tap toggle
+#define QUICK_TAP_TERM 0
 
 
 // HOLD ON OTHER KEY PRESS this take presedence over permissiv allows rolling press be detected as a hold action
