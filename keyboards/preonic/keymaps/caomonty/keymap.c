@@ -62,30 +62,35 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 
 // Symbol Aliases
 
-#define SYM_AT KC_LBRC // "@" symbol using JIS config
-#define JIS_LPA KC_ASTERISK // "(" Left parenthesis
-#define JIS_RPA KC_LEFT_PAREN // ")" Right parenthesis
-#define JIS_LCB KC_RCBR // "{" Left curly brace
-#define JIS_RCB KC_PIPE // "}" Right curly brace
-#define JIS_LSB KC_RBRC // "[" left square bracket
-#define JIS_RSB KC_BSLS // "]" Right bracket
-#define BSLS A(KC_JYEN)  // "\" backslash
-#define PIPE S(KC_JYEN) // "|" pipe
-#define POT KC_EQL // "^"
-#define CURD KC_TILD // "~"
-#define BACKTIK KC_GRV // "`" character (JIS) // KC_LCBR
-#define EQUAL KC_UNDS // "=" equals JIS
-#define PLUS KC_COLN // "+" equals JIS
-#define ASTER KC_DQUO // "*" equals JIS
-#define DIV KC_SLSH // "/" equals JIS
-#define MINUS KC_MINS // "-" equals JIS
+// JIS
+#define JP_AT KC_LBRC // "@" symbol using JIS config
+#define JP_LPA KC_ASTERISK // "(" Left parenthesis
+#define JP_RPA KC_LEFT_PAREN // ")" Right parenthesis
+#define JP_LCB KC_RCBR // "{" Left curly brace
+#define JP_RCB KC_PIPE // "}" Right curly brace
+#define JP_LSB KC_RBRC // "[" left square bracket
+#define JP_RSB KC_BSLS // "]" Right bracket
+#define JP_BSLS A(KC_JYEN)  // "\" backslash
+#define JP_PIPE S(KC_JYEN) // "|" pipe
+#define JP_POT KC_EQL // "^"
+#define JP_CURD KC_TILD // "~"
+#define JP_BCKT KC_GRV // "`" 
+#define JP_EQU KC_UNDS // "=" 
+#define JP_PLUS KC_COLN // "+" 
+#define JP_ASTR KC_DQUO // "*" 
+#define JP_AND KC_CIRC // "&" 
+
+//SP
+#define SP_N A(KC_N) // "  ˜  " 
+#define SP_ACCE A(KC_E) // input spanish accent using JIS
+
 
 #define MM_LE G(KC_LEFT) // move to the start of the current line (*1)
 #define MM_RI G(KC_RGHT) // move to the end of the current line   (*2)
 #define SP_LE A(KC_LEFT) // move the caret one word to the left   (*3)
 #define SP_RI A(KC_RGHT) // move the caret one word to the right  (*4)
-#define MM_N A(KC_N) // input ˜ character JIS keyboard
-#define ACCENT A(KC_E) // input spanish accent using JIS
+
+
 #define JI_QUOT S(KC_7) // input ' using JIS
 #define JI_LCBR S(KC_RBRC) // input { using JIS
 #define JI_LPRN KC_ASTR // input ( using JIS
@@ -190,11 +195,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , KC_F1   ,  KC_F2  , KC_F3   , KC_F4   , KC_PGUP , MM_LE   ,   KC_UP ,   MM_RI ,  ACCENT , WBACK   ,
+      _______ , _______ , KC_F1   ,  KC_F2  , KC_F3   , KC_F4   , KC_PGUP , MM_LE   ,   KC_UP ,   MM_RI , SP_ACCE , WBACK   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , KC_F5   ,  KC_F6  , KC_F7   , KC_F8   , KC_PGDN , KC_LEFT , KC_DOWN , KC_RGHT , KC_SCLN , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , KC_F9   ,  KC_F10 , KC_F11  , KC_F12  , MM_N    , SP_LE   , _______ , SP_RI   , BSLS    , KC_RSFT ,
+      _______ , _______ , KC_F9   ,  KC_F10 , KC_F11  , KC_F12  , SP_N    , SP_LE   , _______ , SP_RI   , JP_BSLS , KC_RSFT ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -203,11 +208,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , MA_PAR  , MA_SBRA , MA_CBRA , PIPE    , _______ , _______ , _______ , _______ , _______ , _______ ,
+      _______ , _______ , MA_PAR  , MA_SBRA , MA_CBRA , JP_PIPE , _______ , _______ , _______ , _______ , _______ , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , JIS_LPA , JIS_LSB , JIS_LCB , CURD    , _______ , _______ , _______ , _______ , _______ , _______ ,
+      _______ , _______ , JP_LPA  , JP_LSB  , JP_LCB  , JP_CURD , _______ , _______ , _______ , _______ , _______ , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , JIS_RPA , JIS_RSB , JIS_RCB , POT     , _______ , _______ , _______ , _______ , _______ , _______ ,
+      _______ , _______ , JP_RPA  , JP_RSB  , JP_RCB  , JP_POT  , _______ , _______ , _______ , _______ , _______ , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -216,11 +221,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      QK_GESC , MA_CODE , KC_LABK , KC_RABK , KC_AMPR , KC_AT   , KC_CIRC , KC_SCLN , JIS_LSB , JIS_RSB , SYM_AT  , KC_MINS ,
+      QK_GESC , MA_CODE , KC_LABK , KC_RABK , KC_AMPR , KC_AT   , JP_AND  , KC_SCLN , JP_LSB  , JP_RSB  , JP_AT   , KC_MINS ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_EXLM , KC_MINS , PLUS    , EQUAL   , KC_HASH , PIPE    , KC_QUOT , JIS_LPA , JIS_RPA , KC_QUES , GUI_ENT ,
+      _______ , KC_EXLM , KC_MINS , JP_PLUS , JP_EQU  , KC_HASH , JP_PIPE , KC_QUOT , JP_LPA  , JP_RPA  , KC_QUES , GUI_ENT ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , POT     , KC_SLSH , ASTER   , BSLS    , _______ , CURD    , KC_DLR  , JIS_LCB , JIS_RCB , KC_PERC , _______ ,
+      _______ , JP_POT  , KC_SLSH , JP_ASTR , JP_BSLS , _______ , JP_CURD , KC_DLR  , JP_LCB  , JP_RCB  , KC_PERC , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , KC_EISU , KC_EISU , KC_KANA , KC_KANA , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -229,11 +234,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , DIV     , ASTER   , PIPE    , KC_JYEN , KC_P7   , KC_P8   , KC_P9   , KC_PSLS , _______ ,
+      _______ , _______ , _______ , KC_SLSH , JP_ASTR , JP_PIPE , KC_JYEN , KC_P7   , KC_P8   , KC_P9   , KC_PSLS , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , MINUS   , PLUS    , CURD    , KC_DLR  , KC_P4   , KC_P5   , KC_P6   , KC_PAST , EQUAL   ,
+      _______ , _______ , _______ , KC_MINS , JP_PLUS , JP_CURD , KC_DLR  , KC_P4   , KC_P5   , KC_P6   , KC_PAST , JP_EQU  ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , KC_COMM , KC_DOT  , POT     , KC_EQL  ,  KC_P1  ,  COMM_2 ,  DOT_3  , KC_PMNS , _______ ,
+      _______ , _______ , _______ , KC_COMM , KC_DOT  , JP_POT  , KC_EQL  ,  KC_P1  ,  COMM_2 ,  DOT_3  , KC_PMNS , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , KC_SPC  , KC_SPC  , KC_P0   , KC_P0   , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -242,7 +247,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , _______, QWE_ON   , COL_ON  , _______ , _______ , _______ , MACLOCK ,
+      _______ , JP_AND  , KC_AMPR , KC_ASTR , KC_LPRN , _______, QWE_ON   , COL_ON  , _______ , _______ , _______ , MACLOCK ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , KC_RPRN , KC_UNDS , KC_PLUS , KC_AT   , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
@@ -448,8 +453,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MA_SBRA:  // send [] JIS
             if (record->event.pressed) {
                 // when keycode QMKBEST is pressed
-                tap_code16(KC_RBRC);
-                tap_code16(KC_BSLS);
+                tap_code16(JP_LSB);
+                tap_code16(JP_RSB);
                 tap_code16(KC_LEFT);
             } else {
                 // when keycode MA_SBRA is released
@@ -481,9 +486,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case MA_CODE: // send ```
             if (record->event.pressed) {
-              tap_code16(S(SYM_AT));
-              tap_code16(S(SYM_AT));
-              tap_code16(S(SYM_AT));
+              tap_code16(JP_BCKT);
+              tap_code16(JP_BCKT);
+              tap_code16(JP_BCKT);
             }
             break;
 // [START] Macro definitions ************************************
