@@ -16,13 +16,13 @@
 
 #pragma once
 
-#ifdef AUDIO_ENABLE
-#    define STARTUP_SONG SONG(QD_NOTE(_F4), E__NOTE(_REST), QD_NOTE(_A5), E__NOTE(_REST), Q__NOTE(_G4), Q__NOTE(_E4), QD_NOTE(_F4),)
+// #ifdef AUDIO_ENABLE
+// #    define STARTUP_SONG SONG(QD_NOTE(_F4), E__NOTE(_REST), QD_NOTE(_A5), E__NOTE(_REST), Q__NOTE(_G4), Q__NOTE(_E4), QD_NOTE(_F4),)
 // #    define STARTUP_SONG SONG(NO_SOUND)
 
-#endif
+// #endif
 
-#define MUSIC_MASK (keycode != KC_NO)
+// #define MUSIC_MASK (keycode != KC_NO)
 #define TAPPING_TERM 200
 #define PERMISSIVE_HOLD_PER_KEY
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
@@ -57,4 +57,4 @@
 //#define MIDI_TONE_KEYCODE_OCTAVES 2
 
 // Include audio clicky
-#define AUDIO_CLICKY
+// #define AUDIO_CLICKY

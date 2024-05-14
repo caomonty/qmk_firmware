@@ -79,7 +79,10 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define JP_PLUS KC_COLN // "+" 
 #define JP_ASTR KC_DQUO // "*" 
 #define JP_AND KC_CIRC // "&" 
-
+#define JP_QUOT KC_AMPR // " ' "
+#define JP_DQUO KC_AT // " " " 
+#define JP_COLO KC_QUOT // :
+#define JP_SCLN KC_SCLN// ;
 //SP
 #define SP_N A(KC_N) // "  ˜  " 
 #define SP_ACCE A(KC_E) // input spanish accent using JIS
@@ -94,7 +97,7 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define JI_QUOT S(KC_7) // input ' using JIS
 #define JI_LCBR S(KC_RBRC) // input { using JIS
 #define JI_LPRN KC_ASTR // input ( using JIS
-#define ALFRED LGUI(LALT(KC_SPC)) // activate alfred in OSx
+#define ALFRED C(KC_SPC) // activate alfred in OSx
 #define WBACK LALT(KC_BSPC)
 #define MACLOCK G(C(KC_Q))
 
@@ -109,7 +112,7 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define QWE_ON TO(_QWERTY) // activates only base layer
 
 // Custom mod-tap
-#define MO_QUOT LT(0, KC_QUOT) // @ on hold : on tap
+#define MO_QUOT LT(0, JP_COLO ) // @ on hold : on tap
 #define MO_X LT(0, KC_X) // Cut on hold X on tap
 #define MO_C LT(0, KC_C) // Copy on hold C on tap
 #define MO_V LT(0, KC_V) // Paste on hold V on tap
@@ -173,9 +176,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       KC_LSFT , KC_SLSH , MO_X    , MO_C    , MO_D    , KC_V    , KC_K    , KC_H    , KC_COMM , KC_DOT  , KC_Z    , SF_UN   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      XXXXXXX , XXXXXXX , KC_LCTL , KC_LGUI , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , CONFI   , KC_LALT , XXXXXXX , XXXXXXX
+      XXXXXXX , XXXXXXX , KC_LCTL , KC_LGUI , QK_REP  , QK_REP  , LT_RSPC , LT_RSPC , CONFI   , KC_LALT , XXXXXXX , XXXXXXX
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
-),
+), 
 [_QWERTY] = LAYOUT_preonic_grid (
 
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
@@ -197,11 +200,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , KC_F1   ,  KC_F2  , KC_F3   , KC_F4   , KC_PGUP , MM_LE   ,   KC_UP ,   MM_RI , SP_ACCE , WBACK   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , KC_F5   ,  KC_F6  , KC_F7   , KC_F8   , KC_PGDN , KC_LEFT , KC_DOWN , KC_RGHT , KC_SCLN , _______ ,
+      _______ , _______ , KC_F5   ,  KC_F6  , KC_F7   , KC_F8   , KC_PGDN , KC_LEFT , KC_DOWN , KC_RGHT , JP_SCLN , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , KC_F9   ,  KC_F10 , KC_F11  , KC_F12  , SP_N    , SP_LE   , _______ , SP_RI   , JP_BSLS , KC_RSFT ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
+      _______ , _______ , _______ , _______ , _______ , _______ , ALFRED  , ALFRED  , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
   ),
 [_DESKTOP] = LAYOUT_preonic_grid (
@@ -217,15 +220,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
   ),
-[_SYMBOLS] = LAYOUT_preonic_grid (
+[_SYMBOLS] = LAYOUT_preonic_grid ( // []()(-{}@?%)
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      QK_GESC , MA_CODE , KC_LABK , KC_RABK , KC_AMPR , KC_AT   , JP_AND  , KC_SCLN , JP_LSB  , JP_RSB  , JP_AT   , KC_MINS ,
+      QK_GESC , MA_CODE , KC_LABK , KC_RABK , JP_QUOT , JP_DQUO , JP_AND  , JP_SCLN , JP_LSB  , JP_RSB  , JP_AT   , KC_MINS ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_EXLM , KC_MINS , JP_PLUS , JP_EQU  , KC_HASH , JP_PIPE , KC_QUOT , JP_LPA  , JP_RPA  , KC_QUES , GUI_ENT ,
+      _______ , KC_EXLM , KC_MINS , JP_PLUS , JP_EQU  , KC_HASH , JP_PIPE , JP_COLO , JP_LPA  , JP_RPA  , KC_QUES , GUI_ENT ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , JP_POT  , KC_SLSH , JP_ASTR , JP_BSLS , _______ , JP_CURD , KC_DLR  , JP_LCB  , JP_RCB  , KC_PERC , _______ ,
+      KC_CAPS , JP_POT  , KC_SLSH , JP_ASTR , JP_BSLS , _______ , JP_CURD , KC_DLR  , JP_LCB  , JP_RCB  , KC_PERC , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , KC_EISU , KC_EISU , KC_KANA , KC_KANA , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -247,9 +250,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , JP_AND  , KC_AMPR , KC_ASTR , KC_LPRN , _______, QWE_ON   , COL_ON  , _______ , _______ , _______ , MACLOCK ,
+      _______ , JP_AND  , JP_QUOT , KC_ASTR , KC_LPRN , _______, QWE_ON   , COL_ON  , _______ , _______ , _______ , MACLOCK ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_RPRN , KC_UNDS , KC_PLUS , KC_AT   , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+      _______ , KC_RPRN , KC_UNDS , KC_PLUS , JP_DQUO , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , KC_HASH , KC_LCBR , KC_RCBR , KC_PIPE , _______ , _______ , _______ , _______ , _______ , KC_UP   , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
@@ -297,7 +300,7 @@ void matrix_scan_user(void) {
       start_up_sound = false;
     }
     // [END] start up sound fix
-#endif
+
 }
 
 // [START] Layer indication with sound
@@ -318,6 +321,7 @@ layer_state_t layer_state_set_user(layer_state_t state){
   }
   return state;
 }
+#endif
 // [END] Layer indication with sound
 
 /*********************** [END] Keyboard specific config ************************/
@@ -407,7 +411,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         //     return false;  // Return false to avoid normal processing of mod-tap
         case LT_LSPC:
             if (record->tap.count && record->event.pressed){
-                tap_code16(ALFRED); // intercept tap function
+                tap_code16(QK_REP); // intercept tap function
             } else if (record->event.pressed){
                 // intercept hold function to press
                 layer_on(_SYMBOLS);
