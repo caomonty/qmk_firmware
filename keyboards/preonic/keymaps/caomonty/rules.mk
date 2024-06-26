@@ -1,3 +1,2 @@
 SRC += muse.c
 AUDIO_ENABLE = yes
-REPEAT_KEY_ENABLE = yes
