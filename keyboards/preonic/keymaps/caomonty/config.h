@@ -32,6 +32,9 @@
 // remove the ability to auto repeat, (double tapping dual role key would emit hold of the tap action) Warning: this affects
 // TT layer keycode and one shot tap toggle
 #define QUICK_TAP_TERM 0
+#define QUICK_TAP_TERM_PER_KEY
+#define ONESHOT_ENABLE
+#define ONESHOT_TAP_TOGGLE 2
 
 
 // HOLD ON OTHER KEY PRESS this take presedence over permissiv allows rolling press be detected as a hold action

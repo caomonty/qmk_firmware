@@ -12,6 +12,10 @@ make git-submodule
 qmk compile -kb preonic/rev3_drop -km caomonty
 ```
 
+```
+make preonic/rev3_drop:caomonty
+```
+
 # Flash
 
 ```

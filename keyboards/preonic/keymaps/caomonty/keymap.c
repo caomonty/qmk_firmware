@@ -6,6 +6,7 @@ enum preonic_layers {
   _COLEMAK, // DH variant
   _DVORAK,
   _UTIL,
+  _LOWER,
   _DESKTOP,
   _DIGITS,
   _CONFIG,
@@ -46,6 +47,7 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define LT_TAB LT(_DIGITS, KC_TAB) // layer digits when held, tab when tapped
 #define ENT_LT LT(_DESKTOP, KC_ENT)// layer change when held, enter when tapped
 #define UTIL MO(_UTIL)
+#define LOWER MO(_LOWER)
 
 // Aliases to shorten code
  // change to utility layer while held
@@ -139,6 +141,13 @@ float config_on[][2] = SONG(M__NOTE(_B4, 1),);
 #define DC_EXPO C(KC_DOWN) // show expose
 #define DC_MISI C(KC_UP)   // show mission control
 
+#define MO_SLSH CTL_T(KC_SLSH)
+#define MO_DOT OPT_T(KC_DOT)
+#define MO_COMM CMD_T(KC_COMM)
+
+#define CK_LSFT OSM(MOD_LSFT)
+
+
 #define EXTRA_DELAY 200
 
 /*********************** [END] Aliases ************************/
@@ -175,9 +184,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       UTIL    , KC_A    , KC_S    , KC_D    , KC_F    , KC_G    , KC_H    , KC_J    , KC_K    , KC_L    , MO_QUOT , ENT_LT  ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      KC_LSFT , KC_Z    , MO_X    , MO_C    , MO_V    , KC_B    , KC_N    , KC_M    , KC_COMM , KC_DOT  , KC_SLSH , SF_UN   ,
+      CK_LSFT , KC_Z    , MO_X    , MO_C    , MO_V    , KC_B    , KC_N    , KC_M    , MO_COMM , MO_DOT  , MO_SLSH , SF_UN   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      XXXXXXX , KC_LCTL , KC_LALT , KC_LGUI , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , CONFI   , KC_LALT , XXXXXXX , XXXXXXX
+      XXXXXXX , XXXXXXX , XXXXXXX , LOWER   , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , LOWER   , XXXXXXX , XXXXXXX , XXXXXXX
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
 
 ),
@@ -189,22 +198,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       UTIL    , KC_A    , KC_R    , KC_S    , KC_T    , KC_G    , KC_M    , KC_N    , KC_E    , KC_I    , KC_O    , ENT_LT  ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      KC_LSFT , KC_SLSH , MO_X    , MO_C    , MO_D    , KC_V    , KC_K    , KC_H    , KC_COMM , KC_DOT  , KC_Z    , SF_UN   , 
+      KC_LSFT , KC_SLSH , MO_X    , MO_C    , MO_D    , KC_V    , KC_K    , KC_H    , KC_COMM , KC_DOT  , KC_Z    , SF_UN   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      XXXXXXX , KC_LCTL , KC_LALT , KC_LGUI , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , CONFI   , KC_LALT , XXXXXXX , XXXXXXX
+      XXXXXXX , XXXXXXX , XXXXXXX , LOWER   , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , LOWER   , XXXXXXX , XXXXXXX , XXXXXXX
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
 ), 
 [_UTIL] = LAYOUT_preonic_grid (
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , KC_F1   ,  KC_F2  , KC_F3   , KC_F4   , KC_PGUP , MM_LE   ,   KC_UP ,   MM_RI , SP_ACCE , WBACK   ,
+      _______ , _______ , KC_F1   , KC_F2   , KC_F3   , KC_F4   , KC_PGUP , MM_LE   , KC_UP   , MM_RI   , SP_ACCE , WBACK   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , KC_F5   ,  KC_F6  , KC_F7   , KC_F8   , KC_PGDN , KC_LEFT , KC_DOWN , KC_RGHT , JP_SCLN , _______ ,
+      _______ , _______ , KC_F5   , KC_F6   , KC_F7   , KC_F8   , KC_PGDN , KC_LEFT , KC_DOWN , KC_RGHT , JP_SCLN , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , KC_F9   ,  KC_F10 , KC_F11  , KC_F12  , SP_N    , SP_LE   , _______ , SP_RI   , JP_BSLS , KC_RSFT ,
+      _______ , _______ , KC_F9   , KC_F10  , KC_F11  , KC_F12  , SP_N    , SP_LE   , _______ , SP_RI   , JP_BSLS , KC_RSFT ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , _______ , _______ , ALFRED  , ALFRED  , _______ , _______ , _______ , _______
+  //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
+  ),
+[_LOWER] = LAYOUT_preonic_grid (
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , KC_1    , KC_2    , KC_3   , KC_4     , KC_5    , KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , KC_RPRN , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
   ),
 [_DESKTOP] = LAYOUT_preonic_grid (
@@ -224,11 +246,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      QK_GESC , MA_CODE , KC_LABK , KC_RABK , JP_QUOT , JP_DQUO , JP_AND  , JP_SCLN , JP_LSB  , JP_RSB  , JP_AT   , KC_MINS ,
+      QK_GESC , MA_CODE , KC_LABK , KC_RABK , JP_QUOT , JP_DQUO , _______ , KC_LCBR , JP_LSB  , JP_RSB  , JP_AT   , KC_MINS ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_EXLM , KC_MINS , JP_PLUS , JP_EQU  , KC_HASH , JP_PIPE , JP_COLO , JP_LPA  , JP_RPA  , KC_QUES , GUI_ENT ,
+      _______ , KC_EXLM , KC_MINS , JP_PLUS , JP_EQU  , KC_HASH , JP_AND  , JP_PIPE , JP_LPA  , JP_RPA  , _______ , GUI_ENT ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      KC_CAPS , JP_POT  , KC_SLSH , JP_ASTR , JP_BSLS , _______ , JP_CURD , KC_DLR  , JP_LCB  , JP_RCB  , KC_PERC , _______ ,
+      _______ , _______ , KC_SLSH , JP_ASTR , JP_BSLS , JP_POT  , KC_DLR  , JP_CURD , JP_LCB  , JP_RCB  , KC_PERC , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , KC_EISU , KC_EISU , KC_KANA , KC_KANA , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -237,20 +259,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , KC_SLSH , JP_ASTR , JP_PIPE , KC_JYEN , KC_7    , KC_8    , KC_9    , KC_PSLS , _______ ,
+      _______ , _______ , _______ , KC_SLSH , JP_ASTR , JP_PIPE , KC_JYEN , KC_7    , KC_8    , KC_9    , KC_PAST , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , KC_MINS , JP_PLUS , JP_CURD , KC_DLR  , KC_4    , KC_5    , KC_6    , KC_PAST , JP_EQU  ,
+      _______ , _______ , _______ , KC_MINS , JP_PLUS , JP_CURD , KC_DLR  , KC_4    , KC_5    , KC_6    , KC_PMNS , JP_EQU  ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , KC_COMM , KC_DOT  , JP_POT  , KC_EQL  ,  KC_1   ,  KC_2   ,  KC_3   , KC_PMNS , _______ ,
+      _______ , _______ , _______ , KC_COMM , KC_DOT  , JP_POT  , KC_PSLS , KC_1    , KC_2    , KC_3    , KC_COLN , KC_DOT  ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , _______ , KC_SPC  , KC_SPC  , KC_P0   , KC_0    , _______ , _______ , _______ , _______
+      _______ , _______ , _______ , _______ , KC_SPC  , KC_SPC  , KC_P0   , KC_0    , KC_DOT  , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
   ),
 [_CONFIG] = LAYOUT_preonic_grid (
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX , XXXXXXX ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , JP_AND  , JP_QUOT , KC_ASTR , KC_LPRN , _______, QWE_ON   , COL_ON  , _______ , _______ , _______ , MACLOCK ,
+      _______ , JP_AND  , JP_QUOT , KC_ASTR , KC_LPRN , _______ , QWE_ON  , COL_ON  , _______ , _______ , _______ , MACLOCK ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , KC_RPRN , KC_UNDS , KC_PLUS , JP_DQUO , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
@@ -327,110 +349,6 @@ layer_state_t layer_state_set_user(layer_state_t state){
 /*********************** [END] Keyboard specific config ************************/
 /*********************** [START] Custom key definitions ************************/
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-//-----> [START] Custom mode tap definitions *****************************
-        case MO_QUOT:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_LBRC); // intercept hold function
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-
-        case MO_X:
-            if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _COLEMAK) {
-                    // tap_code16(C(KC_X)); // todo find a better way to do it on  windows
-                    tap_code16(G(KC_X));
-                }
-                else {
-                    tap_code16(G(KC_X)); // intercept hold function to send cmd-X
-                }
-
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_C:
-            if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _COLEMAK) {
-                    tap_code16(G(KC_C)); // todo find a better way to do it on  windows
-                }
-                else {
-                    tap_code16(G(KC_C)); // intercept hold function to send # cmd-C
-                }
-
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_V:
-            if (!record->tap.count && record->event.pressed){
-                if (biton32(layer_state) == _COLEMAK) {
-                    // tap_code16(C(KC_V)); // paste on windows
-                    tap_code16(G(KC_V));
-                }
-                else {
-                    tap_code16(G(KC_V)); // intercept hold function to send cmd-V
-                }
-
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case MO_D:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(G(KC_V));
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case ROKA:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_KANA); // intercept hold function to send KANA
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case COMM_2:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_COMM); // intercept hold function to send comma
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        case DOT_3:
-            if (!record->tap.count && record->event.pressed){
-                tap_code16(KC_DOT); // intercept hold function to send dot
-                return false;
-            }
-            return true;  // Return true for normal processing of tap keycode
-        // case W_SHIFT:
-        //     if (record->tap.count && record->event.pressed){
-        //         tap_code16(KC_UNDS); // intercept tap function to send _
-        //     } else if (record->event.pressed){
-        //         // intercept hold function to press
-        //         layer_on(_WISHI);
-        //     } else {
-        //         layer_off(_WISHI); // intercept hold function button release
-        //     }
-        //     return false;  // Return false to avoid normal processing of mod-tap
-        case LT_LSPC:
-            if (record->tap.count && record->event.pressed){
-                tap_code16(ALFRED); // intercept tap function
-            } else if (record->event.pressed){
-                // intercept hold function to press
-                layer_on(_SYMBOLS);
-            } else {
-                layer_off(_SYMBOLS); // intercept hold function button release
-            }
-            return false;  // Return false to avoid normal processing of mod-tap
-        case LT_RSPC:
-            if (record->tap.count && record->event.pressed){
-                tap_code16(KC_SPC); // intercept tap function
-            } else if (record->event.pressed){
-                // intercept hold function to press
-                layer_on(_SYMBOLS);
-            } else {
-                layer_off(_SYMBOLS); // intercept hold function button release
-            }
-            return false;  // Return false to avoid normal processing of mod-tap
-
-
 //-----> [END] Custom mode tap definitions  ******************************
 
 //-----> [START] Custom keycode definition  ******************************
@@ -453,56 +371,154 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 //-----> [END] Custom mode tap definitions  ******************************
 
 
-// [START] Macro definitions ************************************
-        case MA_SBRA:  // send [] JIS
+/*********************** [END] Custom key definitions ************************/
+/*********************** [START] Extra optimizations ************************/
+
+/*********************** [END] Extra optimizations ************************/
+
+
+/*----------------------------------------------------------------------------
+   Process record (custom keycodes & mod–tap behaviors)
+----------------------------------------------------------------------------*/
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case MO_QUOT:
+            if (!record->tap.count && record->event.pressed) {
+                tap_code16(KC_LBRC);
+                return false;
+            }
+            return true;
+
+        case MO_X:
+            if (!record->tap.count && record->event.pressed) {
+                if (biton32(layer_state) == _COLEMAK) {
+                    tap_code16(G(KC_X));
+                } else {
+                    tap_code16(G(KC_X));
+                }
+                return false;
+            }
+            return true;
+
+        case MO_C:
+            if (!record->tap.count && record->event.pressed) {
+                if (biton32(layer_state) == _COLEMAK) {
+                    tap_code16(G(KC_C));
+                } else {
+                    tap_code16(G(KC_C));
+                }
+                return false;
+            }
+            return true;
+
+        case MO_V:
+            if (!record->tap.count && record->event.pressed) {
+                if (biton32(layer_state) == _COLEMAK) {
+                    tap_code16(G(KC_V));
+                } else {
+                    tap_code16(G(KC_V));
+                }
+                return false;
+            }
+            return true;
+
+        case MO_D:
+            if (!record->tap.count && record->event.pressed) {
+                tap_code16(G(KC_V));
+                return false;
+            }
+            return true;
+
+        case ROKA:
+            if (!record->tap.count && record->event.pressed) {
+                tap_code16(KC_KANA);
+                return false;
+            }
+            return true;
+
+        case COMM_2:
+            if (!record->tap.count && record->event.pressed) {
+                tap_code16(KC_COMM);
+                return false;
+            }
+            return true;
+
+        case DOT_3:
+            if (!record->tap.count && record->event.pressed) {
+                tap_code16(KC_DOT);
+                return false;
+            }
+            return true;
+
+        case LT_LSPC:
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(ALFRED);
+            } else if (record->event.pressed) {
+                layer_on(_SYMBOLS);
+            } else {
+                    layer_off(_SYMBOLS);
+            }
+            return false;
+
+        case LT_RSPC:
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_SPC);
+            } else if (record->event.pressed) {
+                layer_on(_SYMBOLS);
+            } else {
+                layer_off(_SYMBOLS);
+            }
+            return false;
+
+        // Custom macro definitions
+        case MA_SBRA:  // Send [] (JIS style)
             if (record->event.pressed) {
-                // when keycode QMKBEST is pressed
                 tap_code16(JP_LSB);
                 tap_code16(JP_RSB);
                 tap_code16(KC_LEFT);
-            } else {
-                // when keycode MA_SBRA is released
             }
             break;
 
-        case MA_CBRA: // send {} JIS
+        case MA_CBRA: // Send {} (JIS style)
             if (record->event.pressed) {
-                // when keycode QMKURL is pressed
-                tap_code16(KC_RCBR); // intercept hold function to send {}
+                tap_code16(KC_RCBR);
                 tap_code16(KC_PIPE);
                 tap_code16(KC_LEFT);
-            } else {
-                // when keycode MA_CBRA is released
             }
             break;
 
-        case MA_PAR: // send () JIS
+        case MA_PAR: // Send () (JIS style)
             if (record->event.pressed) {
                 tap_code16(KC_ASTERISK);
                 tap_code16(KC_LEFT_PAREN);
                 tap_code16(KC_LEFT);
             }
             break;
+
         case MA_ALF:
-            if (record->event.pressed) {
-              tap_code16(LGUI(LALT(KC_SPC)));
+                if (record->event.pressed) {
+                tap_code16(LGUI(LALT(KC_SPC)));
             }
             break;
-        case MA_CODE: // send ```
+
+        case MA_CODE: // Send ```
             if (record->event.pressed) {
-              tap_code16(JP_BCKT);
-              tap_code16(JP_BCKT);
-              tap_code16(JP_BCKT);
+                tap_code16(JP_BCKT);
+                tap_code16(JP_BCKT);
+                tap_code16(JP_BCKT);
             }
             break;
-// [START] Macro definitions ************************************
     }
     return true;
-};
-/*********************** [END] Custom key definitions ************************/
+}
+
 /*********************** [START] Extra optimizations ************************/
 
-// try to enable rolling motion on custom mod-tap key to a better performance while fast typing
+// Hold on other keypress takes precedence, as this returns hold before the tapping term finishes
+// Choose hold on other key press, when you don't care about rolling motion, and whant to have the 
+// hold action activate as soon as other key is pressed while the dual action key is pressed
+// This means rolling motion will activate the hold action, this makes sense when you want to activate
+// a modifier that does not make too much sense to be a tap
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record){
     switch (keycode) {
         case SF_UN:
@@ -520,14 +536,32 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record){
     }
 }
 
+// permissive hold allows rolling motion under the tapping term be computed as a tap tap
+// this makes sense when you are mapping keys that the tap is super fast, such as spaces or letters
+// this will allow to perform rolling motion and get the tap tap expected behaviour
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT_RSPC:
             // Activate permissive hold on this key
             return true;
+        case MO_SLSH:
+            return true;
+        case MO_DOT:
+            return true;
+        case MO_COMM:
+            return true;
         default:
             // Use default mode for every other key
             return false;
+    }
+}
+
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT_RSPC:
+            return QUICK_TAP_TERM - 120; // the default is 120 so this key is basically disabling the quick tap term
+        default:
+            return QUICK_TAP_TERM;
     }
 }
 /*********************** [END] Extra optimizations ************************/
