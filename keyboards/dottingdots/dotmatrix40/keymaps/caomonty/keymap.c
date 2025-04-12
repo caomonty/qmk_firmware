@@ -2,6 +2,12 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
+#include "timer.h"
+
+#define FAST_SCROLL_THRESHOLD 100
+#define VERY_FAST_SCROLL_THRESHOLD 50
+#define FAST_MULTIPLIER 2
+#define VERY_FAST_MULTIPLIER 4
 
 /*----------------------------------------------------------------------------
    Layer definitions
@@ -14,8 +20,8 @@ enum dotmatrix_layers {
   _LOWER,
   _DESKTOP,
   _DIGITS,
-  _CONFIG,
   _SYMBOLS,
+  _CONFIG,
 };
 
 /*----------------------------------------------------------------------------
@@ -256,18 +262,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
   ),
   
-  [_CONFIG] = LAYOUT(
-  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
-      _______ , JP_AND  , JP_QUOT , KC_ASTR , KC_LPRN , _______ , QWE_ON  , COL_ON  , _______ , _______ , _______ , MACLOCK ,
-  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_RPRN , KC_UNDS , KC_PLUS , JP_DQUO , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
-  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_HASH , KC_LCBR , KC_RCBR , KC_PIPE , _______ , _______ , _______ , _______ , _______ , KC_UP   , _______ ,
-  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , _______ , _______      , _______ , _______      , _______ , _______ , KC_LEFT , KC_DOWN
-  //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
-  ),
-  
   [_SYMBOLS] = LAYOUT(
 // Actual symbol representation
 // //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
@@ -286,7 +280,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , KC_SLSH , JP_ASTR , JP_BSLS , JP_POT  , KC_DLR  , JP_CURD , JP_LCB  , JP_RCB  , KC_PERC , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , _______ , KC_EISU      , KC_EISU , KC_KANA      , KC_KANA , _______ , _______ , _______
+      _______ , _______ , _______ , _______ , _______      , KC_EISU , _______      , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
 // OLD layout
 //   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
@@ -298,6 +292,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
 //       _______ , _______ , _______ , _______ , KC_EISU      , KC_EISU , KC_KANA      , KC_KANA , _______ , _______ , _______
 //   //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
+  ),
+
+  [_CONFIG] = LAYOUT(
+  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+      _______ , JP_AND  , JP_QUOT , KC_ASTR , KC_LPRN , _______ , QWE_ON  , COL_ON  , _______ , _______ , _______ , MACLOCK ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , KC_RPRN , KC_UNDS , KC_PLUS , JP_DQUO , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , KC_HASH , KC_LCBR , KC_RCBR , KC_PIPE , _______ , _______ , _______ , _______ , _______ , KC_UP   , _______ ,
+  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
+      _______ , _______ , _______ , _______ , _______      , _______ , _______      , _______ , _______ , KC_LEFT , KC_DOWN
+  //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
   )
 }; 
 
@@ -307,6 +313,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /*----------------------------------------------------------------------------
    Process record (custom keycodes & mod–tap behaviors)
 ----------------------------------------------------------------------------*/
+static bool lspc_held = false;
+static bool rspc_held = false;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case MO_QUOT:
@@ -381,9 +389,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->tap.count && record->event.pressed) {
                 tap_code16(ALFRED);
             } else if (record->event.pressed) {
+                lspc_held = true;
                 layer_on(_SYMBOLS);
+                if (rspc_held) {
+                    layer_on(_CONFIG);
+                }
             } else {
-                    layer_off(_SYMBOLS);
+                lspc_held = false;
+                layer_off(_SYMBOLS);
+                layer_off(_CONFIG);  // turn off _CONFIG if either released
             }
             return false;
 
@@ -391,9 +405,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_SPC);
             } else if (record->event.pressed) {
+                rspc_held = true;
                 layer_on(_SYMBOLS);
+                if (lspc_held) {
+                    layer_on(_CONFIG);
+                }
             } else {
+                rspc_held = false;
                 layer_off(_SYMBOLS);
+                layer_off(_CONFIG);  // turn off _CONFIG if either released
             }
             return false;
 
@@ -486,7 +506,7 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT_RSPC:
-            return QUICK_TAP_TERM - 120; // the default is 120 so this key is basically disabling the quick tap term
+            return 0; // the default is 120 so this key is basically disabling the quick tap term
         default:
             return QUICK_TAP_TERM;
     }
@@ -497,18 +517,46 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
    Encoder mapping
    (For now, every layer uses the same mapping.)
 ----------------------------------------------------------------------------*/
-#if defined(ENCODER_MAP_ENABLE)
-const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-  [_QWERTY] = { ENCODER_CCW_CW(MS_WHLD, MS_WHLU) },
-  [_COLEMAK] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
-  [_DVORAK] = { ENCODER_CCW_CW(KC_UP, KC_DOWN) },
-  [_UTIL]    = { ENCODER_CCW_CW(KC_UP, KC_DOWN) },
-  [_DESKTOP] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
-  [_DIGITS]  = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
-  [_CONFIG]  = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
-  [_SYMBOLS] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
-};
-#endif
+// #if defined(ENCODER_MAP_ENABLE)
+// const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+//   [_QWERTY] = { ENCODER_CCW_CW(MS_WHLD, MS_WHLU) },
+//   [_COLEMAK] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
+//   [_DVORAK] = { ENCODER_CCW_CW(KC_UP, KC_DOWN) },
+//   [_UTIL]    = { ENCODER_CCW_CW(KC_UP, KC_DOWN) },
+//   [_DESKTOP] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
+//   [_DIGITS]  = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
+//   [_CONFIG]  = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
+//   [_SYMBOLS] = { ENCODER_CCW_CW(MS_WHLU, MS_WHLD) },
+// };
+// #endif
+
+
+
+static uint16_t last_encoder_time = 0;
+
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    // Optional: only handle encoder 0
+    if (index != 0) return false;
+
+    // Measure how fast the encoder is turning
+    uint16_t now = timer_read();
+    uint16_t delta = now - last_encoder_time;
+    last_encoder_time = now;
+
+    uint8_t repeat = 1;
+    if (delta < VERY_FAST_SCROLL_THRESHOLD) {
+        repeat = VERY_FAST_MULTIPLIER;
+    } else if (delta < FAST_SCROLL_THRESHOLD) {
+        repeat = FAST_MULTIPLIER;
+    }
+
+    // Use KC_UP/KC_DOWN to move caret along with screen
+    for (uint8_t i = 0; i < repeat; i++) {
+        tap_code(clockwise ? KC_DOWN : KC_UP);
+    }
+
+    return false;
+}
 
 
 
