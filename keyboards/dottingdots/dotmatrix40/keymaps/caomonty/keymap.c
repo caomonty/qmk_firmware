@@ -532,6 +532,7 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
 
 
 
+
 static uint16_t last_encoder_time = 0;
 
 bool encoder_update_user(uint8_t index, bool clockwise) {

@@ -35,6 +35,7 @@
 #define QUICK_TAP_TERM_PER_KEY
 #define ONESHOT_ENABLE
 #define ONESHOT_TAP_TOGGLE 2
+#define DEBOUNCE 10
 
 
 // HOLD ON OTHER KEY PRESS this take presedence over permissiv allows rolling press be detected as a hold action
