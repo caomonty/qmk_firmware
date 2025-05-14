@@ -186,7 +186,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       CK_LSFT , KC_Z    , MO_X    , MO_C    , MO_V    , KC_B    , KC_N    , KC_M    , MO_COMM , MO_DOT  , MO_SLSH , SF_UN   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      XXXXXXX , XXXXXXX , XXXXXXX , LOWER   , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , LOWER   , XXXXXXX , XXXXXXX , XXXXXXX
+      XXXXXXX , XXXXXXX , XXXXXXX , LOWER   , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , LOWER   , XXXXXXX , XXXXXXX , CONFI
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
 
 ),
@@ -274,9 +274,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , JP_AND  , JP_QUOT , KC_ASTR , KC_LPRN , _______ , QWE_ON  , COL_ON  , _______ , _______ , _______ , MACLOCK ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_RPRN , KC_UNDS , KC_PLUS , JP_DQUO , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
+      _______ , KC_RPRN , KC_UNDS , KC_PLUS , JP_DQUO , _______ , _______ , _______ , _______ , _______ , _______ , AU_ON ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_HASH , KC_LCBR , KC_RCBR , KC_PIPE , _______ , _______ , _______ , _______ , _______ , KC_UP   , _______ ,
+      _______ , KC_HASH , KC_LCBR , KC_RCBR , KC_PIPE , _______ , _______ , _______ , _______ , _______ , KC_UP   , AU_OFF ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , KC_LEFT , KC_DOWN , KC_RGHT
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -316,34 +316,8 @@ void matrix_scan_user(void) {
             muse_counter = 0;
         }
     }
-    // [START] start up sound fix
-    if (start_up_sound) {
-      wait_ms(500);
-      start_up_sound = false;
-    }
-    // [END] start up sound fix
-
-}
-
-// [START] Layer indication with sound
-layer_state_t layer_state_set_user(layer_state_t state){
-  switch (get_highest_layer(state)) {
-    case _UTIL:
-      PLAY_SONG(util_on);
-      break;
-    case _DESKTOP:
-      PLAY_SONG(desktop_on);
-      break;
-    case _DIGITS:
-      PLAY_SONG(numeric_on);
-      break;
-    case _CONFIG:
-      PLAY_SONG(config_on);
-      break;
-  }
-  return state;
-}
 #endif
+}
 // [END] Layer indication with sound
 
 /*********************** [END] Keyboard specific config ************************/
