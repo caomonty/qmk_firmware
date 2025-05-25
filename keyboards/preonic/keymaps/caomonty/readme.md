@@ -21,6 +21,9 @@ make preonic/rev3_drop:caomonty
 ```
 qmk flash -kb preonic/rev3_drop -km caomonty
 ```
+```
+make preonic/rev3_drop:caomonty:flash
+```
 
 # Build using docker
 

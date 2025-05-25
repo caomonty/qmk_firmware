@@ -198,7 +198,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       KC_LSFT , KC_Z    , MO_X    , MO_C    , MO_D    , KC_V    , KC_K    , KC_H    , MO_COMM , MO_DOT  , MO_SLSH , SF_UN   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      XXXXXXX , KC_LCTL , KC_LALT , KC_LGUI ,   LT_LSPC    , KC_NO   ,   LT_RSPC    , LT_RSPC , CONFI   , KC_LALT , XXXXXXX
+      XXXXXXX , XXXXXXX , XXXXXXX , LOWER   ,   LT_LSPC    , KC_NO   ,   LT_RSPC    , LOWER   , CONFI   , KC_LALT , XXXXXXX
   //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
   ),
   
@@ -210,7 +210,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       KC_LSFT , KC_Z    , MO_X    , MO_C    , MO_V    , KC_B    , KC_N    , KC_M    , KC_COMM , KC_DOT  , KC_SLSH , SF_UN   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      XXXXXXX , KC_LCTL , KC_LALT , KC_LGUI ,   LT_LSPC    , KC_NO   ,   LT_RSPC    , LT_RSPC , CONFI   , KC_LALT , XXXXXXX
+      XXXXXXX , XXXXXXX , XXXXXXX , LOWER   ,   LT_LSPC    , KC_NO   ,   LT_RSPC    , LT_RSPC , LOWER   , XXXXXXX , XXXXXXX
   //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
   ),
   

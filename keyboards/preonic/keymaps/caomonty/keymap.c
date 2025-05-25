@@ -3,14 +3,14 @@
 
 enum preonic_layers {
   _QWERTY,
-  _COLEMAK, // DH variant
+  _COLEMAK,
   _DVORAK,
   _UTIL,
   _LOWER,
   _DESKTOP,
   _DIGITS,
-  _CONFIG,
   _SYMBOLS,
+  _CONFIG,
 };
 
 /*********************** [START] Macro and keycode declarations ************************/
@@ -198,7 +198,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       UTIL    , KC_A    , KC_R    , KC_S    , KC_T    , KC_G    , KC_M    , KC_N    , KC_E    , KC_I    , KC_O    , ENT_LT  ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      KC_LSFT , KC_SLSH , MO_X    , MO_C    , MO_D    , KC_V    , KC_K    , KC_H    , KC_COMM , KC_DOT  , KC_Z    , SF_UN   ,
+      KC_LSFT , KC_Z    , MO_X    , MO_C    , MO_D    , KC_V    , KC_K    , KC_H    , MO_COMM , MO_DOT  , MO_SLSH , SF_UN   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       XXXXXXX , XXXXXXX , XXXXXXX , LOWER   , LT_LSPC , LT_LSPC , LT_RSPC , LT_RSPC , LOWER   , XXXXXXX , XXXXXXX , XXXXXXX
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -252,7 +252,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , KC_SLSH , JP_ASTR , JP_BSLS , JP_POT  , KC_DLR  , JP_CURD , JP_LCB  , JP_RCB  , KC_PERC , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , _______ , KC_EISU , KC_EISU , KC_KANA , KC_KANA , _______ , _______ , _______ , _______
+      _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴───────────────────┴───────────────────┴─────────┴─────────┴─────────┴─────────┘
   ),
 [_DIGITS] = LAYOUT_preonic_grid (
@@ -354,6 +354,8 @@ void matrix_scan_user(void) {
 /*----------------------------------------------------------------------------
    Process record (custom keycodes & mod–tap behaviors)
 ----------------------------------------------------------------------------*/
+static bool lspc_held = false;
+static bool rspc_held = false;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case MO_QUOT:
@@ -428,9 +430,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->tap.count && record->event.pressed) {
                 tap_code16(ALFRED);
             } else if (record->event.pressed) {
+                lspc_held = true;
                 layer_on(_SYMBOLS);
+                if (rspc_held) {
+                    layer_on(_CONFIG);
+                }
             } else {
-                    layer_off(_SYMBOLS);
+                lspc_held = false;
+                layer_off(_SYMBOLS);
+                layer_off(_CONFIG);  // turn off _CONFIG if either released
             }
             return false;
 
@@ -438,9 +446,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->tap.count && record->event.pressed) {
                 tap_code16(KC_SPC);
             } else if (record->event.pressed) {
+                rspc_held = true;
                 layer_on(_SYMBOLS);
+                if (lspc_held) {
+                    layer_on(_CONFIG);
+                }
             } else {
+                rspc_held = false;
                 layer_off(_SYMBOLS);
+                layer_off(_CONFIG);  // turn off _CONFIG if either released
             }
             return false;
 
@@ -533,7 +547,7 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LT_RSPC:
-            return QUICK_TAP_TERM - 120; // the default is 120 so this key is basically disabling the quick tap term
+            return 0; // the default is 120 so this key is basically disabling the quick tap term
         default:
             return QUICK_TAP_TERM;
     }
