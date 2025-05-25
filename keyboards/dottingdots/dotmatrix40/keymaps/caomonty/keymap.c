@@ -18,7 +18,6 @@ enum dotmatrix_layers {
   _DVORAK,
   _UTIL,
   _LOWER,
-  _DESKTOP,
   _DIGITS,
   _SYMBOLS,
   _CONFIG,
@@ -36,6 +35,7 @@ enum dotmatrix_keycodes {
   MA_CODE,
   CK_LSP,
   CK_RSP,
+  CK_COLO // colon-on-tap custom keycode
 };
 
 /*----------------------------------------------------------------------------
@@ -51,113 +51,106 @@ enum dotmatrix_keycodes {
 
 // Custom layer tap and hold
 #define LT_TAB LT(_DIGITS, KC_TAB) // layer digits when held, tab when tapped
-#define ENT_LT LT(_DESKTOP, KC_ENT)// layer change when held, enter when tapped
+#define ENT_LT LT(_SYMBOLS, KC_ENT)// layer change when held, enter when tapped
 #define UTIL MO(_UTIL)
 #define LOWER MO(_LOWER)
 
 // Aliases to shorten code
- // change to utility layer while held
 #define CONFI MO(_CONFIG) // change to configuration layer while held
-#define SF_UN RSFT_T(KC_RO) // shift when held, underscore when tapped
-#define DESK MO(_DESKTOP)  // change to desktop control layer
-#define SPOT A(G(KC_SPC))  // Open spotlight, It may need to change the hotkey inside configuration
+#define SF_UN RSFT_T(KC_UNDS) // shift when held, underscore when tapped (was KC_RO)
+#define SPOT A(G(KC_SPC))  // Open spotlight
 #define SCREEN G(S(KC_4))  // Mac screenshot hotkey
-#define TERMF C(S(KC_T))   // New terminal at folder, (it needs configuration inside shortcuts -> services)
+#define TERMF C(S(KC_T))   // New terminal at folder
 #define CGUI C(KC_LGUI) // Control + Left Gui
 #define MINE TG(_MINE)
 #define GUI_ENT G(KC_ENT) // Gui + Enter
 
+// Symbol Aliases (updated for US ANSI layout)
+#define JP_AT KC_AT          // @
+#define JP_LPA KC_LPRN       // (
+#define JP_RPA KC_RPRN       // )
+#define JP_LCB KC_LCBR       // {
+#define JP_RCB KC_RCBR       // }
+#define JP_LSB KC_LBRC       // [
+#define JP_RSB KC_RBRC       // ]
+#define JP_BSLS KC_BSLS      // "\"
+#define JP_PIPE KC_PIPE      // |
+#define JP_POT KC_CIRC       // ^
+#define JP_CURD KC_TILD      // ~
+#define JP_BCKT KC_GRV       // `
+#define JP_EQU KC_EQL        // =
+#define JP_PLUS KC_PLUS      // +
+#define JP_ASTR KC_ASTR      // *
+#define JP_AND KC_AMPR       // &
+#define JP_QUOT KC_QUOT      // '
+#define JP_DQUO KC_DQUO      // "
+#define JP_COLO KC_COLN      // :
+#define JP_SCLN KC_SCLN      // ;
 
-// Symbol Aliases
+// Spanish input (mac-specific, may need app level config)
+#define SP_N A(KC_N) 
+#define SP_ACCE A(KC_E) 
 
-// JIS
-#define JP_AT KC_LBRC // "@" symbol using JIS config
-#define JP_LPA KC_ASTERISK // "(" Left parenthesis
-#define JP_RPA KC_LEFT_PAREN // ")" Right parenthesis
-#define JP_LCB KC_RCBR // "{" Left curly brace
-#define JP_RCB KC_PIPE // "}" Right curly brace
-#define JP_LSB KC_RBRC // "[" left square bracket
-#define JP_RSB KC_BSLS // "]" Right bracket
-#define JP_BSLS A(KC_JYEN)  // "\" backslash
-#define JP_PIPE S(KC_JYEN) // "|" pipe
-#define JP_POT KC_EQL // "^"
-#define JP_CURD KC_TILD // "~"
-#define JP_BCKT KC_GRV // "`" 
-#define JP_EQU KC_UNDS // "=" 
-#define JP_PLUS KC_COLN // "+" 
-#define JP_ASTR KC_DQUO // "*" 
-#define JP_AND KC_CIRC // "&" 
-#define JP_QUOT KC_AMPR // " ' "
-#define JP_DQUO KC_AT // " " " 
-#define JP_COLO KC_QUOT // :
-#define JP_SCLN KC_SCLN// ;
-//SP
-#define SP_N A(KC_N) // "  ˜  " 
-#define SP_ACCE A(KC_E) // input spanish accent using JIS
+#define MM_LE G(KC_LEFT)
+#define MM_RI G(KC_RGHT)
+#define SP_LE A(KC_LEFT)
+#define SP_RI A(KC_RGHT)
 
-
-#define MM_LE G(KC_LEFT) // move to the start of the current line (*1)
-#define MM_RI G(KC_RGHT) // move to the end of the current line   (*2)
-#define SP_LE A(KC_LEFT) // move the caret one word to the left   (*3)
-#define SP_RI A(KC_RGHT) // move the caret one word to the right  (*4)
-
-
-#define JI_QUOT S(KC_7) // input ' using JIS
-#define JI_LCBR S(KC_RBRC) // input { using JIS
-#define JI_LPRN KC_ASTR // input ( using JIS
-#define ALFRED C(KC_SPC) // activate alfred in OSx
+#define JI_QUOT KC_QUOT
+#define JI_LCBR KC_LCBR
+#define JI_LPRN KC_LPRN
+#define ALFRED C(KC_SPC)
 #define WBACK LALT(KC_BSPC)
 #define MACLOCK G(C(KC_Q))
 
-// Windows-specific codes to emulate the JIS keyboard on a US layout setup
+// Windows-specific codes
 #define WISHIFT MO(_WISHI)
 #define WI_SLSH KC_SLSH
-#define WM_LE A(KC_LEFT) // moves caret to the start of the line
-#define WM_RI A(KC_RGHT) // moves caret to the end of the line
-#define WP_LE C(KC_LEFT) // moves caret to the start of the previous word
-#define WP_RI C(KC_RIGHT) // moves caret tot the next word
-#define COL_ON TO(_COLEMAK) // deactivates all layers but Base and Colemak
-#define QWE_ON TO(_QWERTY) // activates only base layer
+#define WM_LE A(KC_LEFT)
+#define WM_RI A(KC_RGHT)
+#define WP_LE C(KC_LEFT)
+#define WP_RI C(KC_RGHT)
+#define COL_ON TO(_COLEMAK)
+#define QWE_ON TO(_QWERTY)
 
 // mod tap
-
 #define MO_SLSH CTL_T(KC_SLSH)
 #define MO_DOT OPT_T(KC_DOT)
 #define MO_COMM CMD_T(KC_COMM)
 
 // Custom mod-tap
-#define MO_QUOT LT(0, JP_COLO ) // @ on hold : on tap
-#define MO_X LT(0, KC_X) // Cut on hold X on tap
-#define MO_C LT(0, KC_C) // Copy on hold C on tap
-#define MO_V LT(0, KC_V) // Paste on hold V on tap
-#define MO_D LT(0, KC_D) // Paste on hold, D on tap, for colemak
-#define ROKA LT(0, KC_EISU) // change to Romaji input on tap, change to kanji on hold
-#define DOT_3 LT(0, KC_3) // dot on hold 3 on tap,
-#define COMM_2 LT(0, KC_2) // comma on hold, 2 on tap
-#define W_SHIFT LT(0, KC_SLSH) // exclusive use for windows underscore and shift
-#define LT_RSPC LT(0, CK_RSP) // custom behaviour on hold, space on tap
-#define LT_LSPC LT(0, CK_LSP) // custom behaviour on hold, alfred on tap
+#define MO_QUOT LT(0, JP_COLO)
+#define MO_X LT(0, KC_X)
+#define MO_C LT(0, KC_C)
+#define MO_V LT(0, KC_V)
+#define MO_D LT(0, KC_D)
+#define ROKA LT(0, KC_EISU)
+#define DOT_3 LT(0, KC_3)
+#define COMM_2 LT(0, KC_2)
+#define W_SHIFT LT(0, KC_SLSH)
+#define LT_RSPC LT(0, CK_RSP)
+#define LT_LSPC LT(0, CK_LSP)
+#define LT_RSHF LT(0, CK_RSHF)
 
-// Desktop control related aliases
-#define DC_MENU LCTL(KC_F2) // Move focus to menu bar default keybinding in MacOS
-#define DC_DOCK LCTL(KC_F3) // Move focus to dock
-#define DC_TOOL LCTL(KC_F5) // Move focus to window toolbar
-#define DC_STAT LCTL(KC_F8) // Move focus to status bar side of menu bar
-#define DC_DRWR LALT(LGUI(KC_QUOTE)) // Move focus to window drawer
-#define DC_LPAD LALT(LGUI(KC_Q)) // Show Launchpad
-#define DC_NOTI LALT(LGUI(LCTL(KC_B))) // Show Notification Center
-#define DC_DASH LALT(LGUI(LCTL(KC_C))) // Show Dashboard
-#define DC_HELP LSFT(LGUI(KC_SLASH)) // Position in menu Help search box
-#define DC_LEFT C(KC_LEFT) // move to left desktop
-#define DC_RGHT C(KC_RGHT) // move to right desktop
-#define DC_EXPO C(KC_DOWN) // show expose
-#define DC_MISI C(KC_UP)   // show mission control
+// Desktop control
+#define DC_MENU LCTL(KC_F2)
+#define DC_DOCK LCTL(KC_F3)
+#define DC_TOOL LCTL(KC_F5)
+#define DC_STAT LCTL(KC_F8)
+#define DC_DRWR LALT(LGUI(KC_QUOTE))
+#define DC_LPAD LALT(LGUI(KC_Q))
+#define DC_NOTI LALT(LGUI(LCTL(KC_B)))
+#define DC_DASH LALT(LGUI(LCTL(KC_C)))
+#define DC_HELP LSFT(LGUI(KC_SLASH))
+#define DC_LEFT C(KC_LEFT)
+#define DC_RGHT C(KC_RGHT)
+#define DC_EXPO C(KC_DOWN)
+#define DC_MISI C(KC_UP)
 
 #define CK_LSFT OSM(MOD_LSFT)
 
 #define EXTRA_DELAY 200
 
-/*********************** [END] Aliases ************************/
 
 /*----------------------------------------------------------------------------
    Keymaps
@@ -182,7 +175,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       LT_TAB  , KC_Q    , KC_W    , KC_E    , KC_R    , KC_T    , KC_Y    , KC_U    , KC_I    , KC_O    , KC_P    , KC_BSPC ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      UTIL    , KC_A    , KC_S    , KC_D    , KC_F    , KC_G    , KC_H    , KC_J    , KC_K    , KC_L    , MO_QUOT , ENT_LT  ,
+      UTIL    , KC_A    , KC_S    , KC_D    , KC_F    , KC_G    , KC_H    , KC_J    , KC_K    , KC_L    , CK_COLO , ENT_LT  ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       CK_LSFT , KC_Z    , MO_X    , MO_C    , MO_V    , KC_B    , KC_N    , KC_M    , MO_COMM , MO_DOT  , MO_SLSH , SF_UN   ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
@@ -192,7 +185,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   
   [_COLEMAK] = LAYOUT(
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
-      LT_TAB  , KC_Q    , KC_W    , KC_F    , KC_P    , KC_B    , KC_J    , KC_L    , KC_U    , KC_Y    , MO_QUOT , KC_BSPC ,
+      LT_TAB  , KC_Q    , KC_W    , KC_F    , KC_P    , KC_B    , KC_J    , KC_L    , KC_U    , KC_Y    , CK_COLO , KC_BSPC ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       UTIL    , KC_A    , KC_R    , KC_S    , KC_T    , KC_G    , KC_M    , KC_N    , KC_E    , KC_I    , KC_O    , ENT_LT  ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
@@ -230,21 +223,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
       _______ , KC_1    , KC_2    , KC_3   , KC_4     , KC_5    , KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , KC_EXLM , KC_AT   , KC_HASH , KC_DLR  , KC_PERC , KC_CIRC , KC_AMPR , KC_ASTR , KC_LPRN , KC_RPRN , _______ ,
+      _______ , KC_EXLM , KC_DQUO , KC_HASH , KC_DLR  , KC_PERC , KC_AMPR , KC_QUOT , KC_LPRN , KC_RPRN , KC_RPRN , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ , _______ ,
-  //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , _______ , _______ , _______      , _______ , _______      , _______ , _______ , _______ , _______
-  //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
-  ),
-  
-  [_DESKTOP] = LAYOUT(
-  //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
-      _______ , _______ , MA_PAR  , MA_SBRA , MA_CBRA , JP_PIPE , _______ , _______ , _______ , _______ , _______ , _______ ,
-  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , JP_LPA  , JP_LSB  , JP_LCB  , JP_CURD , _______ , _______ , _______ , _______ , _______ , _______ ,
-  //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
-      _______ , _______ , JP_RPA  , JP_RSB  , JP_RCB  , JP_POT  , _______ , _______ , _______ , _______ , _______ , _______ ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┴─────────┼─────────┴─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , _______ , _______ , _______ , _______      , _______ , _______      , _______ , _______ , _______ , _______
   //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
@@ -274,7 +255,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //             ,         ,         ,         ,              ,         ,              ,         ,         ,         ,         
 // //└─────────┴─────────┴─────────┴─────────┴──────────────┴─────────┴──────────────┴─────────┴─────────┴─────────┴─────────┘
   //┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
-      QK_GESC , MA_CODE , KC_LABK , KC_RABK , JP_QUOT , JP_DQUO , _______ , KC_LCBR , JP_LSB  , JP_RSB  , JP_AT   , KC_MINS ,
+      QK_GESC , MA_CODE , KC_LABK , KC_RABK , JP_QUOT , JP_DQUO , _______ , KC_GRV  , JP_LSB  , JP_RSB  , JP_AT   , KC_MINS ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
       _______ , KC_EXLM , KC_MINS , JP_PLUS , JP_EQU  , KC_HASH , JP_AND  , JP_PIPE , JP_LPA  , JP_RPA  , _______ , GUI_ENT ,
   //├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
@@ -317,6 +298,20 @@ static bool lspc_held = false;
 static bool rspc_held = false;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case CK_COLO:
+            if (record->event.pressed) {
+                if (get_mods() & MOD_MASK_SHIFT) {
+                    // Temporarily disable Shift
+                    uint8_t mods = get_mods();
+                    del_mods(MOD_MASK_SHIFT);   // Remove Shift
+                    tap_code16(KC_SCLN);        // Send semicolon
+                    set_mods(mods);             // Restore mods
+                } else {
+                    tap_code16(KC_COLN);  // Tap: send colon
+                }
+            }
+            return false;  // Skip default processing
+
         case MO_QUOT:
             if (!record->tap.count && record->event.pressed) {
                 tap_code16(KC_LBRC);
@@ -384,6 +379,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             return true;
+            
+        case RSFT_T(KC_UNDS):
+            if (record->tap.count && record->event.pressed) {
+                tap_code16(KC_UNDS); // Send KC_UNDS on tap
+                return false;        // Return false to ignore further processing of key
+            }
+            break;
 
         case LT_LSPC:
             if (record->tap.count && record->event.pressed) {
